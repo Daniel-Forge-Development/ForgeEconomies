@@ -8,6 +8,7 @@ import com.envyful.api.forge.command.ForgeCommandFactory;
 import com.envyful.api.forge.player.ForgePlayerManager;
 import com.envyful.economies.forge.config.EconomiesConfig;
 import com.envyful.economies.forge.config.EconomiesQueries;
+import com.envyful.economies.forge.player.EconomiesAttribute;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
@@ -41,6 +42,8 @@ public class EconomiesForge {
 
         this.loadConfig();
 
+        this.playerManager.registerAttribute(this, EconomiesAttribute.class);
+
         UtilConcurrency.runAsync(() -> {
             this.database = new SimpleHikariDatabase(this.config.getDatabase());
 
@@ -68,5 +71,13 @@ public class EconomiesForge {
 
     public static EconomiesForge getInstance() {
         return instance;
+    }
+
+    public EconomiesConfig getConfig() {
+        return this.config;
+    }
+
+    public Database getDatabase() {
+        return this.database;
     }
 }
