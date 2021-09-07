@@ -1,0 +1,3 @@
+rootProject.name = 'ForgeEconomies'
+include 'api'
+include 'forge'
