@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 )
 public class EconomiesForge {
 
-    protected static final String VERSION = "0.3.0";
+    protected static final String VERSION = "0.1.0";
 
     private static EconomiesForge instance;
 
