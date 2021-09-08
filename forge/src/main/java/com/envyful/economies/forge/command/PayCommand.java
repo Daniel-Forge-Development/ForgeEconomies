@@ -49,6 +49,14 @@ public class PayCommand {
             return;
         }
 
+        if (value < economy.getMinimumPayAmount()) {
+            envyPlayer.message(UtilChatColour.translateColourCodes('&', EconomiesForge.getInstance()
+                    .getLocale().getMinimumPayAmount().replace("%value%",
+                            (economy.isPrefix() ? economy.getEconomyIdentifier() : "") + value
+                                    + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))));
+            return;
+        }
+
         Bank playerAccount = playerAttribute.getAccount(economy);
         Bank targetAccount = targetAttribute.getAccount(economy);
 

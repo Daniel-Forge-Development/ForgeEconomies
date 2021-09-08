@@ -19,7 +19,7 @@ public class EconomiesConfig extends AbstractYamlConfig {
             "admin", "password", "eco");
 
     private Map<String, ConfigEconomy> economies = Maps.newHashMap(ImmutableMap.of(
-            "one", new ConfigEconomy("one", "dollars", "$", true, 250.0)
+            "one", new ConfigEconomy("one", "dollars", "$", true, 250.0, 1.0)
     ));
 
     public EconomiesConfig() {
@@ -42,15 +42,17 @@ public class EconomiesConfig extends AbstractYamlConfig {
         private String identifier;
         private boolean prefix;
         private double defaultValue;
+        private double minimumPayAmount;
 
         private transient Economy economy = null;
 
-        public ConfigEconomy(String id, String displayName, String identifier, boolean prefix, double defaultValue) {
+        public ConfigEconomy(String id, String displayName, String identifier, boolean prefix, double defaultValue, double minimumPayAmount) {
             this.id = id;
             this.displayName = displayName;
             this.identifier = identifier;
             this.prefix = prefix;
             this.defaultValue = defaultValue;
+            this.minimumPayAmount = minimumPayAmount;
         }
 
         public ConfigEconomy() {
@@ -58,7 +60,7 @@ public class EconomiesConfig extends AbstractYamlConfig {
 
         public Economy getEconomy() {
             if (this.economy == null) {
-                this.economy = new ForgeEconomy(this.id, this.displayName, this.identifier, this.prefix, this.defaultValue);
+                this.economy = new ForgeEconomy(this.id, this.displayName, this.identifier, this.prefix, this.defaultValue, minimumPayAmount);
             }
 
             return this.economy;

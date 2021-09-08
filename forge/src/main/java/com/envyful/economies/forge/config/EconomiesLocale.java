@@ -27,9 +27,14 @@ public class EconomiesLocale extends AbstractYamlConfig {
 
     private String economyDoesntExist = "&c&l(!) &cCannot find that economy";
     private String cannotPayYourself = "&c&l(!) &cYou cannot pay yourself!";
+    private String minimumPayAmount = "&c&l(!) &cYou cannot pay less than %value%";
 
     public EconomiesLocale() {
         super();
+    }
+
+    public String getMinimumPayAmount() {
+        return this.minimumPayAmount;
     }
 
     public String getCannotPayYourself() {

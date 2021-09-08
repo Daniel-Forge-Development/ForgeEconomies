@@ -47,4 +47,12 @@ public interface Economy {
      */
     double getDefaultValue();
 
+    /**
+     *
+     * Gets the minimum pay amount
+     *
+     * @return Minimum pay amount
+     */
+    double getMinimumPayAmount();
+
 }
