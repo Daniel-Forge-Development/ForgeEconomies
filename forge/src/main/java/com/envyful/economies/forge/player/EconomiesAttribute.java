@@ -49,10 +49,32 @@ public class EconomiesAttribute extends AbstractForgeAttribute<EconomiesForge> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        for (String s : EconomiesForge.getInstance().getConfig().getEconomies().keySet()) {
+            if (this.bankAccounts.containsKey(s)) {
+                continue;
+            }
+
+            Economy economy = EconomiesForge.getInstance().getConfig().getEconomies().get(s).getEconomy();
+            this.bankAccounts.put(s, new ForgeBank(this.parent.getUuid(), economy, economy.getDefaultValue()));
+        }
     }
 
     @Override
     public void save() {
+        try (Connection connection = this.manager.getDatabase().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(EconomiesQueries.CREATE_OR_UPDATE_ACCOUNT)) {
 
+            for (Bank value : this.bankAccounts.values()) {
+                preparedStatement.setString(1, this.parent.getUuid().toString());
+                preparedStatement.setString(2, value.getEconomyId().getEconomyIdentifier());
+                preparedStatement.setDouble(3, value.getBalance());
+                preparedStatement.addBatch();
+            }
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
