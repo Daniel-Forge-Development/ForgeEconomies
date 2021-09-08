@@ -34,13 +34,18 @@ public class TakeCommand {
         }
 
         if (value <= 0) {
-            sender.sendMessage(new TextComponentString("You cannot give someone an amount less than 0"));
+            sender.sendMessage(new TextComponentString("You cannot take an amount less than 0"));
             return;
         }
 
         Bank account = attribute.getAccount(economy);
 
         if (account == null) {
+            return;
+        }
+
+        if (!account.hasFunds(value)) {
+            sender.sendMessage(new TextComponentString("The player has insufficient funds"));
             return;
         }
 
