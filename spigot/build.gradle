@@ -36,7 +36,6 @@ repositories {
         dirs '../../Libraries/'
     }
 }
-
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2854'
     compileOnly 'org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT'
