@@ -34,6 +34,7 @@ public class EconomiesConfig extends AbstractYamlConfig {
         return this.economies;
     }
 
+    @ConfigSerializable
     public static class ConfigEconomy {
 
         private String id;

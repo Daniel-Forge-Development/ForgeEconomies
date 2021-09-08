@@ -15,6 +15,7 @@ import java.util.Map;
 @ConfigSerializable
 public class EconomiesLocale extends AbstractYamlConfig {
 
+    private String balance = "&a&l(!) &a%value%";
     private String givenMoney = "&a&l(!) &a+%value%";
     private String takenMoney = "&c&l(!) &c-%value%";
     private String insufficientFunds = "&c&l(!) &cYou don't have enough %economy_name%.";
@@ -26,6 +27,10 @@ public class EconomiesLocale extends AbstractYamlConfig {
 
     public EconomiesLocale() {
         super();
+    }
+
+    public String getBalance() {
+        return this.balance;
     }
 
     public String getInsufficientFunds() {
