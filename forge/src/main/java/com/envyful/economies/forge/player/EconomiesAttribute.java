@@ -37,9 +37,12 @@ public class EconomiesAttribute extends AbstractForgeAttribute<EconomiesForge> {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                this.bankAccounts.put(resultSet.getString("economy"), new ForgeBank(
+                Economy economy = EconomiesForge.getInstance().getConfig().getEconomies()
+                        .get(resultSet.getString("economy")).getEconomy();
+
+                this.bankAccounts.put(economy.getId(), new ForgeBank(
                         this.parent.getUuid(),
-                        null, //TODO
+                        economy,
                         resultSet.getDouble("balance")
                 ));
             }
