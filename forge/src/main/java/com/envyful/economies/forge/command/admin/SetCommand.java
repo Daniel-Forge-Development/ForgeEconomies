@@ -46,7 +46,7 @@ public class SetCommand {
         }
 
         account.setBalance(value);
-        targetPlayer.message("");
+
         sender.sendMessage(new TextComponentString("")); //TODO: add messages
     }
 }

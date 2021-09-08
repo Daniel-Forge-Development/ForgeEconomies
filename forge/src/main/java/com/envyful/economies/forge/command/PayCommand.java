@@ -4,6 +4,7 @@ import com.envyful.api.command.annotate.Command;
 import com.envyful.api.command.annotate.executor.Argument;
 import com.envyful.api.command.annotate.executor.CommandProcessor;
 import com.envyful.api.command.annotate.executor.Sender;
+import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.player.EnvyPlayer;
 import com.envyful.economies.api.Bank;
 import com.envyful.economies.api.Economy;
@@ -43,11 +44,23 @@ public class PayCommand {
         Bank targetAccount = targetAttribute.getAccount(economy);
 
         if (!playerAccount.hasFunds(value)) {
-            //TODO: error message
+            envyPlayer.message(UtilChatColour.translateColourCodes('&', EconomiesForge.getInstance()
+                    .getLocale().getInsufficientFunds()
+                    .replace("%economy_name%", economy.getDisplayName())));
             return;
         }
 
         playerAccount.withdraw(value);
-        targetAccount.withdraw(value);
+        targetAccount.deposit(value);
+
+        envyPlayer.message(UtilChatColour.translateColourCodes('&', EconomiesForge.getInstance()
+                .getLocale().getTakenMoney().replace("%value%",
+                        (economy.isPrefix() ? economy.getEconomyIdentifier() : "") + value
+                                + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))));
+
+        targetPlayer.message(UtilChatColour.translateColourCodes('&', EconomiesForge.getInstance()
+                .getLocale().getGivenMoney().replace("%value%",
+                        (economy.isPrefix() ? economy.getEconomyIdentifier() : "") + value
+                                + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))));
     }
 }

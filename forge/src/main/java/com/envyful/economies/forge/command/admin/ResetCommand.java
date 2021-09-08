@@ -7,6 +7,7 @@ import com.envyful.api.command.annotate.Permissible;
 import com.envyful.api.command.annotate.executor.Argument;
 import com.envyful.api.command.annotate.executor.CommandProcessor;
 import com.envyful.api.command.annotate.executor.Sender;
+import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.player.EnvyPlayer;
 import com.envyful.economies.api.Bank;
 import com.envyful.economies.api.Economy;
@@ -40,7 +41,11 @@ public class ResetCommand {
         }
 
         account.setBalance(economy.getDefaultValue());
-        targetPlayer.message("");
-        sender.sendMessage(new TextComponentString("")); //TODO: add messages
+
+        sender.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes('&',
+                EconomiesForge.getInstance().getLocale().getAdminResetMoney()
+                        .replace("%player%", target.getName())
+                        .replace("%value%", (economy.isPrefix() ? economy.getEconomyIdentifier() : "") + economy.getDefaultValue()
+                                + (!economy.isPrefix() ? economy.getEconomyIdentifier() : "")))));
     }
 }

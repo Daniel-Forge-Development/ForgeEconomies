@@ -6,6 +6,7 @@ import com.envyful.api.command.annotate.Permissible;
 import com.envyful.api.command.annotate.executor.Argument;
 import com.envyful.api.command.annotate.executor.CommandProcessor;
 import com.envyful.api.command.annotate.executor.Sender;
+import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.player.EnvyPlayer;
 import com.envyful.economies.api.Bank;
 import com.envyful.economies.api.Economy;
@@ -45,7 +46,16 @@ public class GiveCommand {
         }
 
         account.deposit(value);
-        targetPlayer.message("");
-        sender.sendMessage(new TextComponentString("")); //TODO: add messages
+
+        targetPlayer.message(UtilChatColour.translateColourCodes('&', EconomiesForge.getInstance()
+                .getLocale().getGivenMoney().replace("%value%",
+                        (economy.isPrefix() ? economy.getEconomyIdentifier() : "") + value
+                                + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))));
+
+        sender.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes('&',
+                EconomiesForge.getInstance().getLocale().getAdminGivenMoney()
+                        .replace("%player%", target.getName())
+                        .replace("%value%", (economy.isPrefix() ? economy.getEconomyIdentifier() : "") + value
+                                + (!economy.isPrefix() ? economy.getEconomyIdentifier() : "")))));
     }
 }

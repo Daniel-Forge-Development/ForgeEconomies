@@ -27,6 +27,6 @@ public class ReloadCommand {
     @CommandProcessor
     public void onCommand(@Sender ICommandSender sender, String[] args) {
         EconomiesForge.getInstance().loadConfig();
-        sender.sendMessage(new TextComponentString("")); //TODO: add messages
+        sender.sendMessage(new TextComponentString("Reloaded configs"));
     }
 }
