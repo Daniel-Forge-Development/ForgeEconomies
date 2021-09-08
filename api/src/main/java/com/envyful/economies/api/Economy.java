@@ -39,4 +39,12 @@ public interface Economy {
      */
     boolean isPrefix();
 
+    /**
+     *
+     * Gets the default value
+     *
+     * @return The default value
+     */
+    double getDefaultValue();
+
 }
