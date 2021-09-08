@@ -49,6 +49,5 @@ public class PayCommand {
 
         playerAccount.withdraw(value);
         targetAccount.withdraw(value);
-        //TODO: send messages
     }
 }

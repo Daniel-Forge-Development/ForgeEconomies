@@ -9,6 +9,7 @@ import com.envyful.api.forge.player.ForgePlayerManager;
 import com.envyful.economies.forge.command.EconomiesCommand;
 import com.envyful.economies.forge.command.PayCommand;
 import com.envyful.economies.forge.config.EconomiesConfig;
+import com.envyful.economies.forge.config.EconomiesLocale;
 import com.envyful.economies.forge.config.EconomiesQueries;
 import com.envyful.economies.forge.player.EconomiesAttribute;
 import net.minecraftforge.fml.common.Mod;
@@ -36,6 +37,7 @@ public class EconomiesForge {
     private ForgeCommandFactory commandFactory = new ForgeCommandFactory();
 
     private EconomiesConfig config;
+    private EconomiesLocale locale;
     private Database database;
 
     @Mod.EventHandler
@@ -61,6 +63,7 @@ public class EconomiesForge {
     public void loadConfig() {
         try {
             this.config = YamlConfigFactory.getInstance(EconomiesConfig.class);
+            this.locale = YamlConfigFactory.getInstance(EconomiesLocale.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -86,5 +89,9 @@ public class EconomiesForge {
 
     public ForgePlayerManager getPlayerManager() {
         return this.playerManager;
+    }
+
+    public EconomiesLocale getLocale() {
+        return this.locale;
     }
 }
