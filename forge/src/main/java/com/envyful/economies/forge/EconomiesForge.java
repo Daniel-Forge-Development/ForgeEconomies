@@ -57,7 +57,7 @@ public class EconomiesForge {
         });
     }
 
-    private void loadConfig() {
+    public void loadConfig() {
         try {
             this.config = YamlConfigFactory.getInstance(EconomiesConfig.class);
         } catch (IOException e) {
