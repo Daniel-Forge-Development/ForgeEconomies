@@ -6,6 +6,7 @@ import com.envyful.api.database.Database;
 import com.envyful.api.database.impl.SimpleHikariDatabase;
 import com.envyful.api.forge.command.ForgeCommandFactory;
 import com.envyful.api.forge.player.ForgePlayerManager;
+import com.envyful.economies.forge.command.EconomiesCommand;
 import com.envyful.economies.forge.config.EconomiesConfig;
 import com.envyful.economies.forge.config.EconomiesQueries;
 import com.envyful.economies.forge.player.EconomiesAttribute;
@@ -66,7 +67,7 @@ public class EconomiesForge {
 
     @Mod.EventHandler
     public void onServerStart(FMLServerStartingEvent event) {
-
+        this.commandFactory.registerCommand(event.getServer(), new EconomiesCommand());
     }
 
     public static EconomiesForge getInstance() {
