@@ -6,6 +6,7 @@ import com.envyful.api.command.annotate.SubCommands;
 import com.envyful.api.command.annotate.executor.CommandProcessor;
 import com.envyful.api.command.annotate.executor.Sender;
 import com.envyful.economies.forge.command.admin.GiveCommand;
+import com.envyful.economies.forge.command.admin.ResetCommand;
 import com.envyful.economies.forge.command.admin.TakeCommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.text.TextComponentString;
@@ -20,7 +21,7 @@ import net.minecraft.util.text.TextComponentString;
         }
 )
 @Permissible("economies.command.eco")
-@SubCommands({GiveCommand.class, TakeCommand.class})
+@SubCommands({GiveCommand.class, TakeCommand.class, ResetCommand.class})
 public class EconomiesCommand {
 
     @CommandProcessor
