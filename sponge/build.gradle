@@ -41,6 +41,8 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2854'
     compileOnly 'org.spongepowered:spongeforge:1.12.2-2838-7.1.8:dev'
     compileOnly ('com.pixelmonmod.pixelmon:Pixelmon-1.12.2-8.2.0-server:1.0')
+    compileOnly project(':forge')
+    compileOnly project(':api')
 
     shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
 
@@ -54,8 +56,6 @@ dependencies {
     shadow (group: 'com.github.Pixelmon-Development.bStats-Metrics', name: 'bstats-forge', version: '2.2.8') {
         transitive = false
     }
-
-    shadow project(':api')
 }
 
 shadowJar {

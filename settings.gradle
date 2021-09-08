@@ -1,3 +1,4 @@
 rootProject.name = 'ForgeEconomies'
 include 'api'
 include 'forge'
+include 'sponge'
