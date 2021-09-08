@@ -25,6 +25,14 @@ public interface Economy {
 
     /**
      *
+     * Gets the plural display name
+     *
+     * @return Plural display name
+     */
+    String getDisplayNamePlural();
+
+    /**
+     *
      * Gets the identifier for the economy
      *
      * @return The identifier
@@ -54,5 +62,13 @@ public interface Economy {
      * @return Minimum pay amount
      */
     double getMinimumPayAmount();
+
+    /**
+     *
+     * If this economy is the server's default
+     *
+     * @return Is this default economy
+     */
+    boolean isDefault();
 
 }
