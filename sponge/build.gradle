@@ -44,32 +44,25 @@ dependencies {
     compileOnly project(':forge')
     compileOnly project(':api')
 
-    shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
+    compileOnly group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
 
-    shadow group: 'com.github.Pixelmon-Development.API', name: 'commons', version: '0.4.5'
-    shadow group: 'com.github.Pixelmon-Development.API', name: 'forge', version: '0.4.5'
-    shadow group: 'com.github.Pixelmon-Development.API', name: 'reforged', version: '0.4.5'
-
-    shadow (group: 'com.github.Pixelmon-Development.bStats-Metrics', name: 'bstats-base', version: '2.2.8') {
-        transitive = false
-    }
-    shadow (group: 'com.github.Pixelmon-Development.bStats-Metrics', name: 'bstats-forge', version: '2.2.8') {
-        transitive = false
-    }
+    compileOnly group: 'com.github.Pixelmon-Development.API', name: 'commons', version: '0.4.5'
+    compileOnly group: 'com.github.Pixelmon-Development.API', name: 'forge', version: '0.4.5'
+    compileOnly group: 'com.github.Pixelmon-Development.API', name: 'reforged', version: '0.4.5'
 }
 
 shadowJar {
     configurations = [project.configurations.shadow]
     archiveName = rootProject.name + '-Sponge.jar'
 
-    relocate('org.spongepowered.configurate', 'com.envyful.economies.sponge.shade.configurate')
-    relocate('org.yaml.snakeyaml', 'com.envyful.economies.sponge.shade.snakeyaml')
-    relocate('io.leangen.geantyref', 'com.envyful.economies.sponge.shade.geantyref')
-    relocate('com.google.gson', 'com.envyful.economies.sponge.shade.gson')
-    relocate('com.zaxxer', 'com.envyful.economies.sponge.shade.hikari')
-    relocate('org.slf4j', 'com.envyful.economies.sponge.shade.slf4j')
-    relocate('com.envyful.api', 'com.envyful.economies.sponge.shade.envy.api')
-    relocate('org.bstats', 'com.envyful.economies.sponge.shade.bstats')
+    relocate('org.spongepowered.configurate', 'com.envyful.economies.forge.shade.configurate')
+    relocate('org.yaml.snakeyaml', 'com.envyful.economies.forge.shade.snakeyaml')
+    relocate('io.leangen.geantyref', 'com.envyful.economies.forge.shade.geantyref')
+    relocate('com.google.gson', 'com.envyful.economies.forge.shade.gson')
+    relocate('com.zaxxer', 'com.envyful.economies.forge.shade.hikari')
+    relocate('org.slf4j', 'com.envyful.economies.forge.shade.slf4j')
+    relocate('com.envyful.api', 'com.envyful.economies.forge.shade.envy.api')
+    relocate('org.bstats', 'com.envyful.economies.forge.shade.bstats')
 
 
     exclude "**/module-info.class"
