@@ -6,6 +6,7 @@ import com.envyful.api.player.EnvyPlayer;
 import com.envyful.economies.api.Bank;
 import com.envyful.economies.api.Economy;
 import com.envyful.economies.forge.EconomiesForge;
+import com.envyful.economies.forge.config.EconomiesConfig;
 import com.envyful.economies.forge.config.EconomiesQueries;
 import com.envyful.economies.forge.impl.ForgeBank;
 import com.google.common.collect.Maps;
@@ -37,8 +38,15 @@ public class EconomiesAttribute extends AbstractForgeAttribute<EconomiesForge> {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                Economy economy = EconomiesForge.getInstance().getConfig().getEconomies()
-                        .get(resultSet.getString("economy")).getEconomy();
+                EconomiesConfig.ConfigEconomy ecoConfig = EconomiesForge.getInstance().getConfig().getEconomies()
+                        .get(resultSet.getString("economy"));
+
+                if (ecoConfig == null) {
+                    System.out.println("DOESN'T EXIST: "+ resultSet.getString("economy"));
+                    continue;
+                }
+
+                Economy economy = ecoConfig.getEconomy();
 
                 this.bankAccounts.put(economy.getId(), new ForgeBank(
                         this.parent.getUuid(),

@@ -11,6 +11,9 @@ import com.envyful.economies.api.Economy;
 import com.envyful.economies.forge.EconomiesForge;
 import com.envyful.economies.forge.player.EconomiesAttribute;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.text.TextComponentString;
+
+import java.util.Objects;
 
 @Command(
         value = "pay",
@@ -26,6 +29,12 @@ public class PayCommand {
     @CommandProcessor
     public void onCommand(@Sender EntityPlayerMP player, @Argument Economy economy, @Argument EntityPlayerMP target,
                           @Argument double value) {
+        if (Objects.equals(player.getUniqueID(), target.getUniqueID())) {
+            player.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes('&',
+                    EconomiesForge.getInstance().getLocale().getCannotPayYourself())));
+            return;
+        }
+
         EnvyPlayer<EntityPlayerMP> targetPlayer = EconomiesForge.getInstance().getPlayerManager().getPlayer(target);
         EconomiesAttribute targetAttribute = targetPlayer.getAttribute(EconomiesForge.class);
 

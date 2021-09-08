@@ -4,8 +4,10 @@ import com.envyful.api.concurrency.UtilConcurrency;
 import com.envyful.api.config.yaml.YamlConfigFactory;
 import com.envyful.api.database.Database;
 import com.envyful.api.database.impl.SimpleHikariDatabase;
+import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.forge.command.ForgeCommandFactory;
 import com.envyful.api.forge.player.ForgePlayerManager;
+import com.envyful.economies.api.Economy;
 import com.envyful.economies.forge.command.BalanceCommand;
 import com.envyful.economies.forge.command.EconomiesCommand;
 import com.envyful.economies.forge.command.PayCommand;
@@ -13,6 +15,7 @@ import com.envyful.economies.forge.config.EconomiesConfig;
 import com.envyful.economies.forge.config.EconomiesLocale;
 import com.envyful.economies.forge.config.EconomiesQueries;
 import com.envyful.economies.forge.player.EconomiesAttribute;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
@@ -48,6 +51,18 @@ public class EconomiesForge {
         this.loadConfig();
 
         this.playerManager.registerAttribute(this, EconomiesAttribute.class);
+
+        this.commandFactory.registerInjector(Economy.class, (sender, args) -> {
+            EconomiesConfig.ConfigEconomy config = this.config.getEconomies().get(args[0]);
+
+            if (config == null) {
+                sender.sendMessage(new TextComponentString(
+                        UtilChatColour.translateColourCodes('&', this.locale.getEconomyDoesntExist())));
+                return null;
+            }
+
+            return config.getEconomy();
+        });
 
         UtilConcurrency.runAsync(() -> {
             this.database = new SimpleHikariDatabase(this.config.getDatabase());

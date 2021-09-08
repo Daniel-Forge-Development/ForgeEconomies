@@ -25,12 +25,23 @@ public class EconomiesLocale extends AbstractYamlConfig {
     private String adminSetMoney = "&a&l(!) &aYou have set %player%'s balance to %value%";
     private String adminResetMoney = "&a&l(!) &aYou have reset %player%'s balance to %value%";
 
+    private String economyDoesntExist = "&c&l(!) &cCannot find that economy";
+    private String cannotPayYourself = "&c&l(!) &cYou cannot pay yourself!";
+
     public EconomiesLocale() {
         super();
     }
 
+    public String getCannotPayYourself() {
+        return this.cannotPayYourself;
+    }
+
     public String getBalance() {
         return this.balance;
+    }
+
+    public String getEconomyDoesntExist() {
+        return this.economyDoesntExist;
     }
 
     public String getInsufficientFunds() {
