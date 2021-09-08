@@ -81,4 +81,8 @@ public class EconomiesForge {
     public Database getDatabase() {
         return this.database;
     }
+
+    public ForgePlayerManager getPlayerManager() {
+        return this.playerManager;
+    }
 }

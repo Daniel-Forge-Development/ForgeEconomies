@@ -42,6 +42,8 @@ public class EconomiesConfig extends AbstractYamlConfig {
         private boolean prefix;
         private double defaultValue;
 
+        private transient Economy economy = null;
+
         public ConfigEconomy(String id, String displayName, String identifier, boolean prefix, double defaultValue) {
             this.id = id;
             this.displayName = displayName;
@@ -54,7 +56,11 @@ public class EconomiesConfig extends AbstractYamlConfig {
         }
 
         public Economy getEconomy() {
-            return new ForgeEconomy(this.id, this.displayName, this.identifier, this.prefix, this.defaultValue);
+            if (this.economy == null) {
+                this.economy = new ForgeEconomy(this.id, this.displayName, this.identifier, this.prefix, this.defaultValue);
+            }
+
+            return this.economy;
         }
     }
 }

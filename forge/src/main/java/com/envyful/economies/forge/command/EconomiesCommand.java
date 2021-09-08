@@ -2,8 +2,10 @@ package com.envyful.economies.forge.command;
 
 import com.envyful.api.command.annotate.Command;
 import com.envyful.api.command.annotate.Permissible;
+import com.envyful.api.command.annotate.SubCommands;
 import com.envyful.api.command.annotate.executor.CommandProcessor;
 import com.envyful.api.command.annotate.executor.Sender;
+import com.envyful.economies.forge.command.admin.GiveCommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.text.TextComponentString;
 
@@ -17,6 +19,7 @@ import net.minecraft.util.text.TextComponentString;
         }
 )
 @Permissible("economies.command.eco")
+@SubCommands(GiveCommand.class)
 public class EconomiesCommand {
 
     @CommandProcessor
