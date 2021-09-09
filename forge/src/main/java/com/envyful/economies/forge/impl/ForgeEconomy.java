@@ -6,17 +6,21 @@ public class ForgeEconomy implements Economy {
 
     private final String id;
     private final String displayname;
+    private final String displaynamePlural;
     private final String identifier;
     private final boolean prefix;
+    private final boolean isDefault;
     private final double defaultValue;
     private final double minimumPayAmount;
 
-    public ForgeEconomy(String id, String displayname, String identifier, boolean prefix, double defaultValue,
+    public ForgeEconomy(String id, String displayname, String displaynamePlural, String identifier, boolean prefix, boolean isDefault, double defaultValue,
                         double minimumPayAmount) {
         this.id = id;
         this.displayname = displayname;
+        this.displaynamePlural = displaynamePlural;
         this.identifier = identifier;
         this.prefix = prefix;
+        this.isDefault = isDefault;
         this.defaultValue = defaultValue;
         this.minimumPayAmount = minimumPayAmount;
     }
@@ -49,5 +53,15 @@ public class ForgeEconomy implements Economy {
     @Override
     public double getMinimumPayAmount() {
         return this.minimumPayAmount;
+    }
+
+    @Override
+    public String getDisplayNamePlural() {
+        return this.displaynamePlural;
+    }
+
+    @Override
+    public boolean isDefault() {
+        return this.isDefault;
     }
 }

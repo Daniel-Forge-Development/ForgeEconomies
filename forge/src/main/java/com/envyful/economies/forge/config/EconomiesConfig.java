@@ -19,7 +19,8 @@ public class EconomiesConfig extends AbstractYamlConfig {
             "admin", "password", "eco");
 
     private Map<String, ConfigEconomy> economies = Maps.newHashMap(ImmutableMap.of(
-            "one", new ConfigEconomy("one", "dollars", "$", true, 250.0, 1.0)
+            "one", new ConfigEconomy("one", "dollar", "dollars", "$",
+                    true, true, 250.0, 1.0)
     ));
 
     public EconomiesConfig() {
@@ -39,18 +40,23 @@ public class EconomiesConfig extends AbstractYamlConfig {
 
         private String id;
         private String displayName;
+        private String displayNamePlural;
         private String identifier;
         private boolean prefix;
+        private boolean isDefault;
         private double defaultValue;
         private double minimumPayAmount;
 
         private transient Economy economy = null;
 
-        public ConfigEconomy(String id, String displayName, String identifier, boolean prefix, double defaultValue, double minimumPayAmount) {
+        public ConfigEconomy(String id, String displayName, String displayNamePlural, String identifier, boolean prefix,
+                             boolean isDefault, double defaultValue, double minimumPayAmount) {
             this.id = id;
             this.displayName = displayName;
+            this.displayNamePlural = displayNamePlural;
             this.identifier = identifier;
             this.prefix = prefix;
+            this.isDefault = isDefault;
             this.defaultValue = defaultValue;
             this.minimumPayAmount = minimumPayAmount;
         }
@@ -60,7 +66,8 @@ public class EconomiesConfig extends AbstractYamlConfig {
 
         public Economy getEconomy() {
             if (this.economy == null) {
-                this.economy = new ForgeEconomy(this.id, this.displayName, this.identifier, this.prefix, this.defaultValue, minimumPayAmount);
+                this.economy = new ForgeEconomy(this.id, this.displayName, this.displayNamePlural, this.identifier,
+                        this.prefix, this.isDefault, this.defaultValue, minimumPayAmount);
             }
 
             return this.economy;
