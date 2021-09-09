@@ -2,7 +2,6 @@ package com.envyful.economies.sponge.bridge.registry;
 
 import com.envyful.economies.forge.EconomiesForge;
 import com.envyful.economies.forge.config.EconomiesConfig;
-import com.envyful.economies.sponge.bridge.EconomiesForgeSponge;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.spongepowered.api.registry.CatalogRegistryModule;
@@ -14,7 +13,7 @@ import java.util.Optional;
 
 public class CurrencyRegistryModule implements CatalogRegistryModule<Currency> {
     
-    private static final Map<String, Currency> CURRENCIES = Maps.newHashMap();
+    public static final Map<String, Currency> CURRENCIES = Maps.newHashMap();
 
     @Override
     public Optional<Currency> getById(String id) {
@@ -24,7 +23,7 @@ public class CurrencyRegistryModule implements CatalogRegistryModule<Currency> {
             return Optional.empty();
         }
 
-        return Optional.of(CURRENCIES.computeIfAbsent(id, ___ -> new EconomiesForgeSponge.CurrencyForge(config.getEconomy())));
+        return Optional.of(CURRENCIES.computeIfAbsent(id, ___ -> new ForgeCurrency(config.getEconomy())));
     }
 
     @Override
@@ -35,7 +34,7 @@ public class CurrencyRegistryModule implements CatalogRegistryModule<Currency> {
                 continue;
             }
 
-            CURRENCIES.put(entry.getKey(), new EconomiesForgeSponge.CurrencyForge(entry.getValue().getEconomy()));
+            CURRENCIES.put(entry.getKey(), new ForgeCurrency(entry.getValue().getEconomy()));
         }
 
         return Lists.newArrayList(CURRENCIES.values());
