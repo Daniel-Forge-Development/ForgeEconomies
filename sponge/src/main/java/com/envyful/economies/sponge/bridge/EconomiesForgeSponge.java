@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Plugin(
-        id = "economies",
+        id = "economiesbridge",
         name = "Economies Forge Bridge",
         version = EconomiesForgeSponge.VERSION,
         description = "Provides sign shops for sponge"
