@@ -9,6 +9,7 @@ import com.envyful.api.forge.command.ForgeCommandFactory;
 import com.envyful.api.forge.player.ForgePlayerManager;
 import com.envyful.economies.api.Economy;
 import com.envyful.economies.forge.command.BalanceCommand;
+import com.envyful.economies.forge.command.BaltopCommand;
 import com.envyful.economies.forge.command.EconomiesCommand;
 import com.envyful.economies.forge.command.PayCommand;
 import com.envyful.economies.forge.config.EconomiesConfig;
@@ -95,6 +96,7 @@ public class EconomiesForge {
             this.commandFactory.registerCommand(server, new EconomiesCommand());
             this.commandFactory.registerCommand(server, new PayCommand());
             this.commandFactory.registerCommand(server, new BalanceCommand());
+            this.commandFactory.registerCommand(server, new BaltopCommand());
         });
     }
 
