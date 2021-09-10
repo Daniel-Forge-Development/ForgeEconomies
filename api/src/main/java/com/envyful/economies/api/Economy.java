@@ -1,5 +1,7 @@
 package com.envyful.economies.api;
 
+import com.envyful.api.database.leaderboard.SQLLeaderboard;
+
 /**
  *
  * Represents an economy on the server
@@ -70,5 +72,13 @@ public interface Economy {
      * @return Is this default economy
      */
     boolean isDefault();
+
+    /**
+     *
+     * Gets the leaderboard for this {@link Economy}
+     *
+     * @return The leaderboard handler
+     */
+    SQLLeaderboard getLeaderboard();
 
 }

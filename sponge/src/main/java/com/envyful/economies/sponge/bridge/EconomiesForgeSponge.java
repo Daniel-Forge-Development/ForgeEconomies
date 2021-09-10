@@ -39,7 +39,9 @@ public class EconomiesForgeSponge {
             "balance",
             "bal",
             "eco",
-            "economies"
+            "economies",
+            "baltop",
+            "ecotop"
     };
 
     protected static final String VERSION = "0.1.0";
