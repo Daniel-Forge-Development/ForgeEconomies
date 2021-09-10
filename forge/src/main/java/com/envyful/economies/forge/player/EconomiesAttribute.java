@@ -31,6 +31,17 @@ public class EconomiesAttribute extends AbstractForgeAttribute<EconomiesForge> {
 
     @Override
     public void load() {
+        if (OfflinePlayerManager.isCached(this.parent.getUuid())) {
+            OfflinePlayerData offlinePlayerData = OfflinePlayerManager.removeCache(this.parent.getUuid());
+
+            for (String s : EconomiesForge.getInstance().getConfig().getEconomies().keySet()) {
+                Economy economy = EconomiesForge.getInstance().getConfig().getEconomies().get(s).getEconomy();
+                this.bankAccounts.put(s, offlinePlayerData.getBalance(economy));
+            }
+
+            return;
+        }
+
         try (Connection connection = this.manager.getDatabase().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(EconomiesQueries.LOAD_USER)) {
             preparedStatement.setString(1, this.parent.getUuid().toString());
