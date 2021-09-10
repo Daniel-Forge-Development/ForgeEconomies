@@ -15,10 +15,13 @@ import com.envyful.economies.forge.config.EconomiesConfig;
 import com.envyful.economies.forge.config.EconomiesLocale;
 import com.envyful.economies.forge.config.EconomiesQueries;
 import com.envyful.economies.forge.player.EconomiesAttribute;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -86,10 +89,14 @@ public class EconomiesForge {
     }
 
     @Mod.EventHandler
-    public void onServerStart(FMLServerStartingEvent event) {
-        this.commandFactory.registerCommand(event.getServer(), new EconomiesCommand());
-        this.commandFactory.registerCommand(event.getServer(), new PayCommand());
-        this.commandFactory.registerCommand(event.getServer(), new BalanceCommand());
+    public void onServerStart(FMLServerStartedEvent event) {
+        MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+
+        UtilConcurrency.runAsync(() -> {
+            this.commandFactory.registerCommand(server, new EconomiesCommand());
+            this.commandFactory.registerCommand(server, new PayCommand());
+            this.commandFactory.registerCommand(server, new BalanceCommand());
+        });
     }
 
     public static EconomiesForge getInstance() {
