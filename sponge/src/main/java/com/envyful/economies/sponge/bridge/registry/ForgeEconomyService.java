@@ -1,9 +1,12 @@
 package com.envyful.economies.sponge.bridge.registry;
 
+import com.envyful.api.player.EnvyPlayer;
 import com.envyful.economies.forge.EconomiesForge;
 import com.envyful.economies.forge.config.EconomiesConfig;
-import com.google.common.collect.Lists;
+import com.envyful.economies.sponge.bridge.registry.account.ForgeUniqueAccount;
+import com.envyful.economies.sponge.bridge.registry.account.OfflineForgeAccount;
 import com.google.common.collect.Sets;
+import net.minecraft.entity.player.EntityPlayerMP;
 import org.spongepowered.api.service.context.ContextCalculator;
 import org.spongepowered.api.service.economy.Currency;
 import org.spongepowered.api.service.economy.EconomyService;
@@ -70,7 +73,13 @@ public class ForgeEconomyService implements EconomyService {
 
     @Override
     public Optional<UniqueAccount> getOrCreateAccount(UUID uuid) {
-        return Optional.empty();
+        EnvyPlayer<EntityPlayerMP> player = EconomiesForge.getInstance().getPlayerManager().getPlayer(uuid);
+
+        if(player == null) {
+            return Optional.of(new OfflineForgeAccount(uuid, this.getDefaultCurrency()));
+        }
+
+        return Optional.of(new ForgeUniqueAccount(uuid));
     }
 
     @Override

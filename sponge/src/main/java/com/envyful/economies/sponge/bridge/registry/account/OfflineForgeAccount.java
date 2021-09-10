@@ -14,7 +14,7 @@ import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.service.context.Context;
 import org.spongepowered.api.service.economy.Currency;
 import org.spongepowered.api.service.economy.account.Account;
-import org.spongepowered.api.service.economy.account.VirtualAccount;
+import org.spongepowered.api.service.economy.account.UniqueAccount;
 import org.spongepowered.api.service.economy.transaction.*;
 import org.spongepowered.api.text.Text;
 
@@ -24,12 +24,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-public class VirtualForgeAccount implements VirtualAccount {
+public class OfflineForgeAccount implements UniqueAccount {
 
     private final UUID uuid;
     private OfflinePlayerData offlinePlayerData;
 
-    public VirtualForgeAccount(UUID uuid, Currency currency) {
+    public OfflineForgeAccount(UUID uuid, Currency currency) {
         this.uuid = uuid;
 
         if (!(currency instanceof ForgeCurrency)) {
@@ -162,5 +162,10 @@ public class VirtualForgeAccount implements VirtualAccount {
         TransactionResult result = new ForgeTransactionResult(this, currency, ResultType.SUCCESS, transactionType);
         Sponge.getEventManager().post(new ForgeTransactionEvent(this, result));
         return result;
+    }
+
+    @Override
+    public UUID getUniqueId() {
+        return this.uuid;
     }
 }
