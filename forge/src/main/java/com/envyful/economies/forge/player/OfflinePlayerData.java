@@ -27,7 +27,7 @@ public class OfflinePlayerData {
         this.uuid = uuid;
 
         try (Connection connection = EconomiesForge.getInstance().getDatabase().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(EconomiesQueries.LOAD_SPECIFC)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(EconomiesQueries.LOAD_SPECIFIC)) {
             preparedStatement.setString(1, this.uuid.toString());
             preparedStatement.setString(2, economy.getId());
 

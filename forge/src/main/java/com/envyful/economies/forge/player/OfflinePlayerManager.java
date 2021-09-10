@@ -5,7 +5,6 @@ import com.envyful.economies.api.Bank;
 import com.envyful.economies.api.Economy;
 import com.google.common.collect.Maps;
 
-import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 

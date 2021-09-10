@@ -1,6 +1,10 @@
 package com.envyful.economies.forge.impl;
 
+import com.envyful.api.database.leaderboard.Order;
+import com.envyful.api.database.leaderboard.SQLLeaderboard;
 import com.envyful.economies.api.Economy;
+
+import java.util.concurrent.TimeUnit;
 
 public class ForgeEconomy implements Economy {
 
@@ -12,6 +16,7 @@ public class ForgeEconomy implements Economy {
     private final boolean isDefault;
     private final double defaultValue;
     private final double minimumPayAmount;
+    private final SQLLeaderboard leaderboard;
 
     public ForgeEconomy(String id, String displayname, String displaynamePlural, String identifier, boolean prefix, boolean isDefault, double defaultValue,
                         double minimumPayAmount) {
@@ -23,6 +28,15 @@ public class ForgeEconomy implements Economy {
         this.isDefault = isDefault;
         this.defaultValue = defaultValue;
         this.minimumPayAmount = minimumPayAmount;
+        this.leaderboard = SQLLeaderboard.builder()
+                .order(Order.ASCENDING)
+                .pageSize(10)
+                .cacheDuration(TimeUnit.MINUTES.toMillis(30))
+                .formatter(resultSet -> "") //TODO
+                .table("forge_economies_banks")
+                .column("balance")
+                .extraClauses("economy = '" + this.id + "'")
+                .build();
     }
 
     @Override
@@ -63,5 +77,10 @@ public class ForgeEconomy implements Economy {
     @Override
     public boolean isDefault() {
         return this.isDefault;
+    }
+
+    @Override
+    public SQLLeaderboard getLeaderboard() {
+        return this.leaderboard;
     }
 }

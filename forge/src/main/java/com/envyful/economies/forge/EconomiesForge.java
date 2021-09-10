@@ -15,7 +15,6 @@ import com.envyful.economies.forge.config.EconomiesConfig;
 import com.envyful.economies.forge.config.EconomiesLocale;
 import com.envyful.economies.forge.config.EconomiesQueries;
 import com.envyful.economies.forge.player.EconomiesAttribute;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
