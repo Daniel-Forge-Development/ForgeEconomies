@@ -101,7 +101,7 @@ public class OfflinePlayerData {
         }
     }
 
-    private void save() {
+    public void save() {
         UtilConcurrency.runAsync(() -> {
             try (Connection connection = EconomiesForge.getInstance().getDatabase().getConnection();
                  PreparedStatement preparedStatement = connection.prepareStatement(EconomiesQueries.CREATE_OR_UPDATE_ACCOUNT)) {
