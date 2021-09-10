@@ -14,7 +14,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 
 @Command(
         value = "balance",
-        description = "Get balance for bank account",
+        description = "§7/balance [economy]",
         aliases = {
                 "ebalance",
                 "ebal",
