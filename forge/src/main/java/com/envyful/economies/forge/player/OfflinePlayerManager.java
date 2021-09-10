@@ -28,6 +28,17 @@ public class OfflinePlayerManager {
         return OFFLINE_CACHE.remove(uuid);
     }
 
+    public static OfflinePlayerData getPlayer(UUID uuid, Economy economy) {
+        OfflinePlayerData offlinePlayerData = OFFLINE_CACHE.get(uuid);
+
+        if (offlinePlayerData != null) {
+            offlinePlayerData.updateLastAccess();
+            return offlinePlayerData;
+        }
+
+        return new OfflinePlayerData(uuid, economy);
+    }
+
     public static Bank getPlayerBalance(UUID uuid, Economy economy) {
         OfflinePlayerData offlinePlayerData = OFFLINE_CACHE.get(uuid);
 

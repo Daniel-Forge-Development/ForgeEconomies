@@ -1,6 +1,8 @@
 package com.envyful.economies.sponge.bridge.registry.account;
 
 import com.envyful.api.player.EnvyPlayer;
+import com.envyful.economies.api.Bank;
+import com.envyful.economies.api.Economy;
 import com.envyful.economies.forge.EconomiesForge;
 import com.envyful.economies.forge.player.EconomiesAttribute;
 import com.envyful.economies.sponge.bridge.registry.ForgeCurrency;
@@ -99,7 +101,13 @@ public class ForgeUniqueAccount implements UniqueAccount {
 
     @Override
     public Map<Currency, TransactionResult> resetBalances(Cause cause, Set<Context> contexts) {
-        return Collections.emptyMap();
+        Map<Currency, TransactionResult> currencies = Maps.newHashMap();
+
+        for (Currency currency : ForgeEconomyService.getInstance().getCurrencies()) {
+            currencies.put(currency, this.resetBalance(currency, cause, contexts));
+        }
+
+        return currencies;
     }
 
     @Override
@@ -123,8 +131,10 @@ public class ForgeUniqueAccount implements UniqueAccount {
         }
 
         EconomiesAttribute attribute = this.parent.getAttribute(EconomiesForge.class);
+        Economy economy = ((ForgeCurrency) currency).getEconomy();
+        Bank account = attribute.getAccount(economy);
 
-        attribute.getAccount(((ForgeCurrency) currency).getEconomy()).deposit(amount.doubleValue());
+        account.deposit(amount.doubleValue());
         return this.post(currency, amount, TransactionTypes.DEPOSIT);
     }
 
@@ -135,8 +145,14 @@ public class ForgeUniqueAccount implements UniqueAccount {
         }
 
         EconomiesAttribute attribute = this.parent.getAttribute(EconomiesForge.class);
+        Economy economy = ((ForgeCurrency) currency).getEconomy();
+        Bank account = attribute.getAccount(economy);
 
-        attribute.getAccount(((ForgeCurrency) currency).getEconomy()).withdraw(amount.doubleValue());
+        if (!account.hasFunds(amount.doubleValue())) {
+            return new ForgeTransactionResult(this, currency, ResultType.FAILED, TransactionTypes.WITHDRAW);
+        }
+
+        account.withdraw(amount.doubleValue());
         return this.post(currency, amount, TransactionTypes.WITHDRAW);
     }
 
