@@ -9,6 +9,7 @@ import com.envyful.economies.sponge.bridge.registry.ForgeCurrency;
 import com.envyful.economies.sponge.bridge.registry.ForgeEconomyService;
 import com.envyful.economies.sponge.bridge.registry.account.event.ForgeTransactionEvent;
 import com.envyful.economies.sponge.bridge.registry.account.event.ForgeTransactionResult;
+import com.envyful.economies.sponge.bridge.registry.account.event.ForgeTransferResult;
 import com.google.common.collect.Maps;
 import net.minecraft.entity.player.EntityPlayerMP;
 import org.spongepowered.api.Sponge;
@@ -158,7 +159,21 @@ public class ForgeUniqueAccount implements UniqueAccount {
 
     @Override
     public TransferResult transfer(Account to, Currency currency, BigDecimal amount, Cause cause, Set<Context> contexts) {
-        return null;
+        if (!(currency instanceof ForgeCurrency)) {
+            return new ForgeTransferResult(to, this, currency, ResultType.FAILED, TransactionTypes.WITHDRAW);
+        }
+
+        EconomiesAttribute attribute = this.parent.getAttribute(EconomiesForge.class);
+        Economy economy = ((ForgeCurrency) currency).getEconomy();
+        Bank account = attribute.getAccount(economy);
+
+        if (!account.hasFunds(amount.doubleValue())) {
+            return new ForgeTransferResult(to, this, currency, ResultType.FAILED, TransactionTypes.WITHDRAW);
+        }
+
+        account.withdraw(amount.doubleValue());
+        to.deposit(currency, amount, cause);
+        return this.post(to, currency, amount, TransactionTypes.WITHDRAW);
     }
 
     @Override
@@ -178,6 +193,12 @@ public class ForgeUniqueAccount implements UniqueAccount {
 
     private TransactionResult post(Currency currency, BigDecimal amount, TransactionType transactionType) {
         TransactionResult result = new ForgeTransactionResult(this, currency, ResultType.SUCCESS, transactionType);
+        Sponge.getEventManager().post(new ForgeTransactionEvent(this, result));
+        return result;
+    }
+
+    private TransferResult post(Account to, Currency currency, BigDecimal amount, TransactionType transactionType) {
+        TransferResult result = new ForgeTransferResult(to, this, currency, ResultType.SUCCESS, transactionType);
         Sponge.getEventManager().post(new ForgeTransactionEvent(this, result));
         return result;
     }
