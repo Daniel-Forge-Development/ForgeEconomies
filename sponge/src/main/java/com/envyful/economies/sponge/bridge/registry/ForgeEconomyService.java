@@ -17,7 +17,17 @@ import java.util.UUID;
 
 public class ForgeEconomyService implements EconomyService {
 
+    private static ForgeEconomyService instance;
+
     private Currency defaultCurrency = null;
+
+    public ForgeEconomyService() {
+        instance = this;
+    }
+
+    public static ForgeEconomyService getInstance() {
+        return instance;
+    }
 
     @Override
     public Currency getDefaultCurrency() {

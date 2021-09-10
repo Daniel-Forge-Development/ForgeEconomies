@@ -14,6 +14,10 @@ public class ForgeCurrency implements Currency {
         this.economy = economy;
     }
 
+    public Economy getEconomy() {
+        return this.economy;
+    }
+
     @Override
     public Text getDisplayName() {
         return Text.of(this.economy.getDisplayName());
