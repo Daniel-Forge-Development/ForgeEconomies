@@ -1,15 +1,8 @@
 package com.envyful.economies.forge.config;
 
 import com.envyful.api.config.data.ConfigPath;
-import com.envyful.api.config.type.SQLDatabaseDetails;
 import com.envyful.api.config.yaml.AbstractYamlConfig;
-import com.envyful.economies.api.Economy;
-import com.envyful.economies.forge.impl.ForgeEconomy;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
-
-import java.util.Map;
 
 @ConfigPath("config/EconomiesForge/locale.yml")
 @ConfigSerializable
@@ -28,9 +21,14 @@ public class EconomiesLocale extends AbstractYamlConfig {
     private String economyDoesntExist = "&c&l(!) &cCannot find that economy";
     private String cannotPayYourself = "&c&l(!) &cYou cannot pay yourself!";
     private String minimumPayAmount = "&c&l(!) &cYou cannot pay less than %value%";
+    private String pageMustBeGreaterThanZero = "&c&l(!) &cThe page number must be greater than 0";
 
     public EconomiesLocale() {
         super();
+    }
+
+    public String getPageMustBeGreaterThanZero() {
+        return this.pageMustBeGreaterThanZero;
     }
 
     public String getMinimumPayAmount() {
