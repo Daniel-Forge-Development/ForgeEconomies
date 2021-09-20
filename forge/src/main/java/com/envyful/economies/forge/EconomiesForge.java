@@ -8,6 +8,7 @@ import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.forge.command.ForgeCommandFactory;
 import com.envyful.api.forge.player.ForgePlayerManager;
 import com.envyful.economies.api.Economy;
+import com.envyful.economies.api.platform.PlatformController;
 import com.envyful.economies.forge.command.BalanceCommand;
 import com.envyful.economies.forge.command.BaltopCommand;
 import com.envyful.economies.forge.command.EconomiesCommand;
@@ -46,6 +47,7 @@ public class EconomiesForge {
     private EconomiesConfig config;
     private EconomiesLocale locale;
     private Database database;
+    private PlatformController platformController;
 
     public EconomiesForge() {
         instance = this;
@@ -120,5 +122,13 @@ public class EconomiesForge {
 
     public EconomiesLocale getLocale() {
         return this.locale;
+    }
+
+    public PlatformController getPlatformController() {
+        return this.platformController;
+    }
+
+    public void setPlatformController(PlatformController platformController) {
+        this.platformController = platformController;
     }
 }
