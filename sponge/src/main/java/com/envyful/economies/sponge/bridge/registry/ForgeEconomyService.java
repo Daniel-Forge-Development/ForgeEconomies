@@ -1,12 +1,12 @@
 package com.envyful.economies.sponge.bridge.registry;
 
-import com.envyful.api.player.EnvyPlayer;
 import com.envyful.economies.forge.EconomiesForge;
 import com.envyful.economies.forge.config.EconomiesConfig;
 import com.envyful.economies.sponge.bridge.registry.account.ForgeUniqueAccount;
 import com.envyful.economies.sponge.bridge.registry.account.OfflineForgeAccount;
 import com.google.common.collect.Sets;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import org.spongepowered.api.service.context.ContextCalculator;
 import org.spongepowered.api.service.economy.Currency;
 import org.spongepowered.api.service.economy.EconomyService;
@@ -34,7 +34,7 @@ public class ForgeEconomyService implements EconomyService {
 
     @Override
     public Currency getDefaultCurrency() {
-        if (this.defaultCurrency == null) {
+        if (this.defaultCurrency == null && EconomiesForge.getInstance() != null) {
             for (Map.Entry<String, EconomiesConfig.ConfigEconomy> entry : EconomiesForge.getInstance()
                     .getConfig().getEconomies().entrySet()) {
                 if (entry.getValue().getEconomy().isDefault()) {
@@ -73,7 +73,7 @@ public class ForgeEconomyService implements EconomyService {
 
     @Override
     public Optional<UniqueAccount> getOrCreateAccount(UUID uuid) {
-        EnvyPlayer<EntityPlayerMP> player = EconomiesForge.getInstance().getPlayerManager().getPlayer(uuid);
+        EntityPlayerMP player = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(uuid);
 
         if(player == null) {
             return Optional.of(new OfflineForgeAccount(uuid, this.getDefaultCurrency()));

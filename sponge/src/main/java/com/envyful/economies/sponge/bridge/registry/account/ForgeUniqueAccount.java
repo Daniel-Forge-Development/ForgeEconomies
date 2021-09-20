@@ -30,16 +30,24 @@ import java.util.UUID;
 public class ForgeUniqueAccount implements UniqueAccount {
 
     private final UUID uuid;
-    private final EnvyPlayer<EntityPlayerMP> parent;
+
+    private EnvyPlayer<EntityPlayerMP> parent = null;
 
     public ForgeUniqueAccount(UUID uuid) {
         this.uuid = uuid;
-        this.parent = EconomiesForge.getInstance().getPlayerManager().getPlayer(uuid);
+    }
+
+    public EnvyPlayer<EntityPlayerMP> getParent() {
+        if (this.parent == null) {
+            this.parent = EconomiesForge.getInstance().getPlayerManager().getPlayer(this.uuid);
+        }
+
+        return this.parent;
     }
 
     @Override
     public Text getDisplayName() {
-        return Text.of(this.parent.getParent().getName());
+        return Text.of(this.getParent().getParent().getName());
     }
 
     @Override
@@ -62,18 +70,32 @@ public class ForgeUniqueAccount implements UniqueAccount {
             return BigDecimal.ZERO;
         }
 
-        EconomiesAttribute attribute = this.parent.getAttribute(EconomiesForge.class);
+        if (this.getParent() == null) {
+            return BigDecimal.ZERO;
+        }
+
+        EconomiesAttribute attribute = this.getParent().getAttribute(EconomiesForge.class);
 
         if (attribute == null) {
             return BigDecimal.ZERO;
         }
 
-        return BigDecimal.valueOf(attribute.getAccount(((ForgeCurrency) currency).getEconomy()).getBalance());
+        Bank account = attribute.getAccount(((ForgeCurrency) currency).getEconomy());
+
+        if (account == null) {
+            return BigDecimal.ZERO;
+        }
+
+        return BigDecimal.valueOf(account.getBalance());
     }
 
     @Override
     public Map<Currency, BigDecimal> getBalances(Set<Context> contexts) {
-        EconomiesAttribute attribute = this.parent.getAttribute(EconomiesForge.class);
+        if (this.getParent() == null) {
+            return Maps.newHashMap();
+        }
+
+        EconomiesAttribute attribute = this.getParent().getAttribute(EconomiesForge.class);
         Map<Currency, BigDecimal> currencies = Maps.newHashMap();
 
         for (Currency currency : ForgeEconomyService.getInstance().getCurrencies()) {
@@ -94,7 +116,11 @@ public class ForgeUniqueAccount implements UniqueAccount {
             return new ForgeTransactionResult(this, currency, ResultType.FAILED, TransactionTypes.TRANSFER);
         }
 
-        EconomiesAttribute attribute = this.parent.getAttribute(EconomiesForge.class);
+        if (this.getParent() == null) {
+            return new ForgeTransactionResult(this, currency, ResultType.FAILED, TransactionTypes.TRANSFER);
+        }
+
+        EconomiesAttribute attribute = this.getParent().getAttribute(EconomiesForge.class);
 
         attribute.getAccount(((ForgeCurrency) currency).getEconomy()).setBalance(amount.doubleValue());
         return this.post(currency, amount, TransactionTypes.TRANSFER);
@@ -117,7 +143,11 @@ public class ForgeUniqueAccount implements UniqueAccount {
             return new ForgeTransactionResult(this, currency, ResultType.FAILED, TransactionTypes.TRANSFER);
         }
 
-        EconomiesAttribute attribute = this.parent.getAttribute(EconomiesForge.class);
+        if (this.getParent() == null) {
+            return new ForgeTransactionResult(this, currency, ResultType.FAILED, TransactionTypes.TRANSFER);
+        }
+
+        EconomiesAttribute attribute = this.getParent().getAttribute(EconomiesForge.class);
 
         attribute.getAccount(((ForgeCurrency) currency).getEconomy())
                 .setBalance(((ForgeCurrency) currency).getEconomy().getDefaultValue());
@@ -131,7 +161,11 @@ public class ForgeUniqueAccount implements UniqueAccount {
             return new ForgeTransactionResult(this, currency, ResultType.FAILED, TransactionTypes.DEPOSIT);
         }
 
-        EconomiesAttribute attribute = this.parent.getAttribute(EconomiesForge.class);
+        if (this.getParent() == null) {
+            return new ForgeTransactionResult(this, currency, ResultType.FAILED, TransactionTypes.DEPOSIT);
+        }
+
+        EconomiesAttribute attribute = this.getParent().getAttribute(EconomiesForge.class);
         Economy economy = ((ForgeCurrency) currency).getEconomy();
         Bank account = attribute.getAccount(economy);
 
@@ -145,7 +179,11 @@ public class ForgeUniqueAccount implements UniqueAccount {
             return new ForgeTransactionResult(this, currency, ResultType.FAILED, TransactionTypes.WITHDRAW);
         }
 
-        EconomiesAttribute attribute = this.parent.getAttribute(EconomiesForge.class);
+        if (this.getParent() == null) {
+            return new ForgeTransactionResult(this, currency, ResultType.FAILED, TransactionTypes.WITHDRAW);
+        }
+
+        EconomiesAttribute attribute = this.getParent().getAttribute(EconomiesForge.class);
         Economy economy = ((ForgeCurrency) currency).getEconomy();
         Bank account = attribute.getAccount(economy);
 
@@ -163,7 +201,11 @@ public class ForgeUniqueAccount implements UniqueAccount {
             return new ForgeTransferResult(to, this, currency, ResultType.FAILED, TransactionTypes.WITHDRAW);
         }
 
-        EconomiesAttribute attribute = this.parent.getAttribute(EconomiesForge.class);
+        if (this.getParent() == null) {
+            return new ForgeTransferResult(to, this, currency, ResultType.FAILED, TransactionTypes.WITHDRAW);
+        }
+
+        EconomiesAttribute attribute = this.getParent().getAttribute(EconomiesForge.class);
         Economy economy = ((ForgeCurrency) currency).getEconomy();
         Bank account = attribute.getAccount(economy);
 
