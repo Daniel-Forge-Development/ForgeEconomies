@@ -45,7 +45,7 @@ public class ForgeBank implements Bank {
             return;
         }
 
-        EconomiesForge.getInstance().getPlatformController().sendEconomyEvent(player, oldBalance, this.balance, this.balance);
+        EconomiesForge.getInstance().getPlatformController().sendEconomyEvent(player, this.economy, oldBalance, this.balance, this.balance);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class ForgeBank implements Bank {
             return;
         }
 
-        EconomiesForge.getInstance().getPlatformController().sendEconomyEvent(player, oldBalance, this.balance, value);
+        EconomiesForge.getInstance().getPlatformController().sendEconomyEvent(player, this.economy, oldBalance, this.balance, value);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class ForgeBank implements Bank {
             return;
         }
 
-        EconomiesForge.getInstance().getPlatformController().sendEconomyEvent(player, oldBalance, this.balance, -value);
+        EconomiesForge.getInstance().getPlatformController().sendEconomyEvent(player, this.economy, oldBalance, this.balance, -value);
     }
 
     @Override
