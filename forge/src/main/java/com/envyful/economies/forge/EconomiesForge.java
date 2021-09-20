@@ -47,10 +47,12 @@ public class EconomiesForge {
     private EconomiesLocale locale;
     private Database database;
 
+    public EconomiesForge() {
+        instance = this;
+    }
+
     @Mod.EventHandler
     public void onInit(FMLInitializationEvent event) {
-        instance = this;
-
         this.loadConfig();
 
         this.playerManager.registerAttribute(this, EconomiesAttribute.class);

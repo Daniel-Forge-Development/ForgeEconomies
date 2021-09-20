@@ -53,7 +53,6 @@ public class EconomiesAttribute extends AbstractForgeAttribute<EconomiesForge> {
                         .get(resultSet.getString("economy"));
 
                 if (ecoConfig == null) {
-                    System.out.println("DOESN'T EXIST: "+ resultSet.getString("economy"));
                     continue;
                 }
 

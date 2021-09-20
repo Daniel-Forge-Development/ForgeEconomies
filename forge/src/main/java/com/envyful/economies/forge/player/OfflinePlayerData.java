@@ -57,7 +57,7 @@ public class OfflinePlayerData {
 
     public Bank getBalance(Economy economy) {
         this.updateLastAccess();
-        return this.balances.get(economy);
+        return this.balances.computeIfAbsent(economy, ___ -> new ForgeBank(this.uuid, economy, economy.getDefaultValue()));
     }
 
     private void load() {
