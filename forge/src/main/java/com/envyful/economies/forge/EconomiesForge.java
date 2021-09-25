@@ -22,6 +22,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 
 import java.io.IOException;
@@ -54,9 +55,14 @@ public class EconomiesForge {
     }
 
     @Mod.EventHandler
-    public void onInit(FMLInitializationEvent event) {
-        this.loadConfig();
+    public void onPreInit(FMLPreInitializationEvent event) {
+        instance = this;
 
+        this.loadConfig();
+    }
+
+    @Mod.EventHandler
+    public void onInit(FMLInitializationEvent event) {
         this.playerManager.registerAttribute(this, EconomiesAttribute.class);
 
         this.commandFactory.registerInjector(Economy.class, (sender, args) -> {
