@@ -62,7 +62,7 @@ public class EconomiesForge {
         this.commandFactory.registerInjector(Economy.class, (sender, args) -> {
             EconomiesConfig.ConfigEconomy config = this.config.getEconomies().get(args[0]);
 
-            if (config == null) {
+            if (config == null || config.getEconomy() == null) {
                 sender.sendMessage(new TextComponentString(
                         UtilChatColour.translateColourCodes('&', this.locale.getEconomyDoesntExist())));
                 return null;
