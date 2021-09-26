@@ -13,7 +13,7 @@ import net.minecraft.util.text.TextComponentString;
 
 @Command(
         value = "reload",
-        description = "Reload command"
+        description = "§7/eco reload"
 )
 @Permissible("economies.command.eco.reload")
 @Child

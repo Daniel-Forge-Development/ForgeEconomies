@@ -19,7 +19,7 @@ import net.minecraft.util.text.TextComponentString;
 
 @Command(
         value = "set",
-        description = "Admin set command"
+        description = "§7/eco set <player> <economy> <amount>"
 )
 @Permissible("economies.command.eco.set")
 @Child

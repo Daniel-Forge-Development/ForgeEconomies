@@ -19,7 +19,7 @@ import net.minecraft.util.text.TextComponentString;
 
 @Command(
         value = "reset",
-        description = "Admin reset command"
+        description = "§7/eco reset <player> <economy>"
 )
 @Permissible("economies.command.eco.reset")
 @Child

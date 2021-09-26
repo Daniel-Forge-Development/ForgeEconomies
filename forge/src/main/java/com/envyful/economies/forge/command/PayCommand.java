@@ -17,7 +17,7 @@ import java.util.Objects;
 
 @Command(
         value = "pay",
-        description = "Pay another player",
+        description = "§7/pay <economy> <player> <amount>",
         aliases = {
                 "epay",
                 "ecopay"

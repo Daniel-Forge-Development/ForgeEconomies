@@ -18,7 +18,7 @@ import net.minecraft.util.text.TextComponentString;
 
 @Command(
         value = "take",
-        description = "Admin take command"
+        description = "§7/eco take <player> <economy> <amount>"
 )
 @Permissible("economies.command.eco.take")
 @Child

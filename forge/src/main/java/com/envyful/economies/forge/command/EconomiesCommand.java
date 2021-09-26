@@ -11,7 +11,7 @@ import net.minecraft.util.text.TextComponentString;
 
 @Command(
         value = "eco",
-        description = "Economies admin command",
+        description = "§7/eco [give|take|reload|reset|set]",
         aliases = {
                 "economies",
                 "forgeeconomies",
