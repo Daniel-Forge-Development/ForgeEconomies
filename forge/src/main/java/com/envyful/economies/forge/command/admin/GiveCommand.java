@@ -35,7 +35,10 @@ public class GiveCommand {
         }
 
         if (value <= 0) {
-            sender.sendMessage(new TextComponentString("You cannot give someone an amount less than 0"));
+            sender.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(
+                    '&',
+                    EconomiesForge.getInstance().getLocale().getCannotGiveLessThanZero()
+            )));
             return;
         }
 

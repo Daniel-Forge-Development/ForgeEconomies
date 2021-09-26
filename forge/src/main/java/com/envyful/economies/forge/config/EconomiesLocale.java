@@ -26,6 +26,7 @@ public class EconomiesLocale extends AbstractYamlConfig {
     private String pageMustBeGreaterThanZero = "&c&l(!) &cThe page number must be greater than 0";
     private String cannotSetLessThanZero = "&c&l(!) &cYou cannot set an amount less than 0";
     private String cannotTakeLessThanZero = "&c&l(!) &cYou cannot take an amount less than 0";
+    private String cannotGiveLessThanZero = "&c&l(!) &cYou cannot give an amount less than 0";
 
     public EconomiesLocale() {
         super();
@@ -93,5 +94,9 @@ public class EconomiesLocale extends AbstractYamlConfig {
 
     public String getCannotTakeLessThanZero() {
         return this.cannotTakeLessThanZero;
+    }
+
+    public String getCannotGiveLessThanZero() {
+        return this.cannotGiveLessThanZero;
     }
 }
