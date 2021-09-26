@@ -17,6 +17,7 @@ public class EconomiesLocale extends AbstractYamlConfig {
     private String adminTakenMoney = "&a&l(!) &aYou have taken %value% from %player%";
     private String adminSetMoney = "&a&l(!) &aYou have set %player%'s balance to %value%";
     private String adminResetMoney = "&a&l(!) &aYou have reset %player%'s balance to %value%";
+    private String adminReload = "&a&l(!) &aReloaded config";
 
     private String economyDoesntExist = "&c&l(!) &cCannot find that economy";
     private String cannotPayYourself = "&c&l(!) &cYou cannot pay yourself!";
@@ -73,5 +74,9 @@ public class EconomiesLocale extends AbstractYamlConfig {
 
     public String getAdminResetMoney() {
         return this.adminResetMoney;
+    }
+
+    public String getAdminReload() {
+        return this.adminReload;
     }
 }
