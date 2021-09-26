@@ -18,6 +18,7 @@ public class EconomiesLocale extends AbstractYamlConfig {
     private String adminSetMoney = "&a&l(!) &aYou have set %player%'s balance to %value%";
     private String adminResetMoney = "&a&l(!) &aYou have reset %player%'s balance to %value%";
     private String adminReload = "&a&l(!) &aReloaded config";
+    private String adminInsufficientFunds = "&c&l(!) &cThe target has insufficient funds!";
 
     private String economyDoesntExist = "&c&l(!) &cCannot find that economy";
     private String cannotPayYourself = "&c&l(!) &cYou cannot pay yourself!";
@@ -83,5 +84,9 @@ public class EconomiesLocale extends AbstractYamlConfig {
 
     public String getCannotSetLessThanZero() {
         return this.cannotSetLessThanZero;
+    }
+
+    public String getAdminInsufficientFunds() {
+        return this.adminInsufficientFunds;
     }
 }

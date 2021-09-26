@@ -46,7 +46,10 @@ public class TakeCommand {
         }
 
         if (!account.hasFunds(value)) {
-            sender.sendMessage(new TextComponentString("The player has insufficient funds"));
+            sender.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(
+                    '&',
+                    EconomiesForge.getInstance().getLocale().getAdminInsufficientFunds()
+            )));
             return;
         }
 
