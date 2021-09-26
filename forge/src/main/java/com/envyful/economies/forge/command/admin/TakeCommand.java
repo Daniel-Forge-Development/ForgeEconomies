@@ -58,7 +58,7 @@ public class TakeCommand {
                                 + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))));
 
         sender.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes('&',
-                EconomiesForge.getInstance().getLocale().getTakenMoney()
+                EconomiesForge.getInstance().getLocale().getAdminTakenMoney()
                         .replace("%player%", target.getName())
                         .replace("%value%", (economy.isPrefix() ? economy.getEconomyIdentifier() : "") + value
                                 + (!economy.isPrefix() ? economy.getEconomyIdentifier() : "")))));
