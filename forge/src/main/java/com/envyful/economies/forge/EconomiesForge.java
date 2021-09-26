@@ -66,15 +66,15 @@ public class EconomiesForge {
         this.playerManager.registerAttribute(this, EconomiesAttribute.class);
 
         this.commandFactory.registerInjector(Economy.class, (sender, args) -> {
-            EconomiesConfig.ConfigEconomy config = this.config.getEconomies().get(args[0]);
+            Economy economyFromConfig = this.getEconomyFromConfig(args[0]);
 
-            if (config == null || config.getEconomy() == null) {
+            if (economyFromConfig == null) {
                 sender.sendMessage(new TextComponentString(
                         UtilChatColour.translateColourCodes('&', this.locale.getEconomyDoesntExist())));
                 return null;
             }
 
-            return config.getEconomy();
+            return  economyFromConfig;
         });
 
         UtilConcurrency.runAsync(() -> {
@@ -87,6 +87,16 @@ public class EconomiesForge {
                 e.printStackTrace();
             }
         });
+    }
+
+    private Economy getEconomyFromConfig(String name) {
+        for (EconomiesConfig.ConfigEconomy value : this.config.getEconomies().values()) {
+            if (value.getEconomy().getId().equals(name)) {
+                return value.getEconomy();
+            }
+        }
+
+        return null;
     }
 
     public void loadConfig() {
