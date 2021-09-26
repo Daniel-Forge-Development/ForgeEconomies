@@ -25,6 +25,7 @@ public class EconomiesLocale extends AbstractYamlConfig {
     private String minimumPayAmount = "&c&l(!) &cYou cannot pay less than %value%";
     private String pageMustBeGreaterThanZero = "&c&l(!) &cThe page number must be greater than 0";
     private String cannotSetLessThanZero = "&c&l(!) &cYou cannot set an amount less than 0";
+    private String cannotTakeLessThanZero = "&c&l(!) &cYou cannot take an amount less than 0";
 
     public EconomiesLocale() {
         super();
@@ -88,5 +89,9 @@ public class EconomiesLocale extends AbstractYamlConfig {
 
     public String getAdminInsufficientFunds() {
         return this.adminInsufficientFunds;
+    }
+
+    public String getCannotTakeLessThanZero() {
+        return this.cannotTakeLessThanZero;
     }
 }

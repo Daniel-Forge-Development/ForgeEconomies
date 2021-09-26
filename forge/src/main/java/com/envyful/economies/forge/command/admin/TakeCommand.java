@@ -35,7 +35,10 @@ public class TakeCommand {
         }
 
         if (value <= 0) {
-            sender.sendMessage(new TextComponentString("You cannot take an amount less than 0"));
+            sender.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(
+                    '&',
+                    EconomiesForge.getInstance().getLocale().getCannotTakeLessThanZero()
+            )));
             return;
         }
 
