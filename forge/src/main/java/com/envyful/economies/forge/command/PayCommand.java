@@ -3,12 +3,16 @@ package com.envyful.economies.forge.command;
 import com.envyful.api.command.annotate.Command;
 import com.envyful.api.command.annotate.executor.Argument;
 import com.envyful.api.command.annotate.executor.CommandProcessor;
+import com.envyful.api.command.annotate.executor.Completable;
 import com.envyful.api.command.annotate.executor.Sender;
 import com.envyful.api.forge.chat.UtilChatColour;
+import com.envyful.api.forge.command.completion.player.ExcludeSelfCompletion;
+import com.envyful.api.forge.command.completion.player.PlayerTabCompleter;
 import com.envyful.api.player.EnvyPlayer;
 import com.envyful.economies.api.Bank;
 import com.envyful.economies.api.Economy;
 import com.envyful.economies.forge.EconomiesForge;
+import com.envyful.economies.forge.impl.EconomyTabCompleter;
 import com.envyful.economies.forge.player.EconomiesAttribute;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextComponentString;
@@ -27,7 +31,9 @@ public class PayCommand {
 
 
     @CommandProcessor
-    public void onCommand(@Sender EntityPlayerMP player, @Argument Economy economy, @Argument EntityPlayerMP target,
+    public void onCommand(@Sender EntityPlayerMP player,
+                          @Completable(EconomyTabCompleter.class) @Argument Economy economy,
+                          @Completable(PlayerTabCompleter.class) @ExcludeSelfCompletion @Argument EntityPlayerMP target,
                           @Argument double value) {
         if (Objects.equals(player.getUniqueID(), target.getUniqueID())) {
             player.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes('&',
