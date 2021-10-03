@@ -49,14 +49,11 @@ public class EconomiesAttribute extends AbstractForgeAttribute<EconomiesForge> {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                EconomiesConfig.ConfigEconomy ecoConfig = EconomiesForge.getInstance().getConfig().getEconomies()
-                        .get(resultSet.getString("economy"));
+                Economy economy = getEconomy(resultSet.getString("economy"));
 
-                if (ecoConfig == null) {
+                if (economy == null) {
                     continue;
                 }
-
-                Economy economy = ecoConfig.getEconomy();
 
                 this.bankAccounts.put(economy.getId(), new ForgeBank(
                         this.parent.getUuid(),
@@ -76,6 +73,15 @@ public class EconomiesAttribute extends AbstractForgeAttribute<EconomiesForge> {
             Economy economy = EconomiesForge.getInstance().getConfig().getEconomies().get(s).getEconomy();
             this.bankAccounts.put(s, new ForgeBank(this.parent.getUuid(), economy, economy.getDefaultValue()));
         }
+    }
+
+    private Economy getEconomy(String id) {
+        for (EconomiesConfig.ConfigEconomy value : EconomiesForge.getInstance().getConfig().getEconomies().values()) {
+            if (value.getEconomy().getEconomyIdentifier().equals(id)) {
+                return value.getEconomy();
+            }
+        }
+        return null;
     }
 
     @Override
