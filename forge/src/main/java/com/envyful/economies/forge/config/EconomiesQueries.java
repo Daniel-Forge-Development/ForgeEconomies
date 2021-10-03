@@ -6,7 +6,7 @@ public class EconomiesQueries {
             "id         INT             UNSIGNED    NOT NULL    AUTO_INCREMENT, " +
             "uuid       VARCHAR(64)     NOT NULL, " +
             "economy    VARCHAR(200)    NOT NULL, " +
-            "balance    FLOAT(7, 4)     NOT NULL, " +
+            "balance    FLOAT     NOT NULL, " +
             "UNIQUE(uuid, economy), " +
             "PRIMARY KEY(id));";
 
