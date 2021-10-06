@@ -10,7 +10,6 @@ import com.envyful.api.command.annotate.executor.Sender;
 import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.forge.command.completion.number.IntCompletionData;
 import com.envyful.api.forge.command.completion.number.IntegerTabCompleter;
-import com.envyful.api.forge.command.completion.player.ExcludeSelfCompletion;
 import com.envyful.api.forge.command.completion.player.PlayerTabCompleter;
 import com.envyful.api.player.EnvyPlayer;
 import com.envyful.economies.api.Bank;
@@ -32,7 +31,7 @@ public class TakeCommand {
 
     @CommandProcessor
     public void onCommand(@Sender ICommandSender sender,
-                          @Completable(PlayerTabCompleter.class) @ExcludeSelfCompletion @Argument EntityPlayerMP target,
+                          @Completable(PlayerTabCompleter.class) @Argument EntityPlayerMP target,
                           @Completable(EconomyTabCompleter.class) @Argument Economy economy,
                           @Completable(IntegerTabCompleter.class) @IntCompletionData(min = 1, max = 20) @Argument double value) {
         EnvyPlayer<EntityPlayerMP> targetPlayer = EconomiesForge.getInstance().getPlayerManager().getPlayer(target);

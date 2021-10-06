@@ -9,7 +9,6 @@ import com.envyful.api.command.annotate.executor.CommandProcessor;
 import com.envyful.api.command.annotate.executor.Completable;
 import com.envyful.api.command.annotate.executor.Sender;
 import com.envyful.api.forge.chat.UtilChatColour;
-import com.envyful.api.forge.command.completion.player.ExcludeSelfCompletion;
 import com.envyful.api.forge.command.completion.player.PlayerTabCompleter;
 import com.envyful.api.player.EnvyPlayer;
 import com.envyful.economies.api.Bank;
@@ -31,7 +30,7 @@ public class ResetCommand {
 
     @CommandProcessor
     public void onCommand(@Sender ICommandSender sender,
-                          @Completable(PlayerTabCompleter.class) @ExcludeSelfCompletion @Argument EntityPlayerMP target,
+                          @Completable(PlayerTabCompleter.class) @Argument EntityPlayerMP target,
                           @Completable(EconomyTabCompleter.class) @Argument Economy economy) {
         EnvyPlayer<EntityPlayerMP> targetPlayer = EconomiesForge.getInstance().getPlayerManager().getPlayer(target);
         EconomiesAttribute attribute = targetPlayer.getAttribute(EconomiesForge.class);
