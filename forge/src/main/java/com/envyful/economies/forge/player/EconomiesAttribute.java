@@ -66,12 +66,14 @@ public class EconomiesAttribute extends AbstractForgeAttribute<EconomiesForge> {
         }
 
         for (String s : EconomiesForge.getInstance().getConfig().getEconomies().keySet()) {
-            if (this.bankAccounts.containsKey(s)) {
+            Economy economy = EconomiesForge.getInstance().getConfig().getEconomies().get(s).getEconomy();
+
+            if (this.bankAccounts.containsKey(economy.getId())) {
                 continue;
             }
 
-            Economy economy = EconomiesForge.getInstance().getConfig().getEconomies().get(s).getEconomy();
-            this.bankAccounts.put(s, new ForgeBank(this.parent.getUuid(), economy, economy.getDefaultValue()));
+            this.bankAccounts.put(economy.getId(), new ForgeBank(this.parent.getUuid(), economy,
+                                                             economy.getDefaultValue()));
         }
     }
 
