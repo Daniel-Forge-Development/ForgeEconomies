@@ -36,7 +36,7 @@ public class EconomiesAttribute extends AbstractForgeAttribute<EconomiesForge> {
 
             for (String s : EconomiesForge.getInstance().getConfig().getEconomies().keySet()) {
                 Economy economy = EconomiesForge.getInstance().getConfig().getEconomies().get(s).getEconomy();
-                this.bankAccounts.put(s, offlinePlayerData.getBalance(economy));
+                this.bankAccounts.put(economy.getId(), offlinePlayerData.getBalance(economy));
             }
 
             return;
@@ -89,11 +89,12 @@ public class EconomiesAttribute extends AbstractForgeAttribute<EconomiesForge> {
         try (Connection connection = this.manager.getDatabase().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(EconomiesQueries.CREATE_OR_UPDATE_ACCOUNT)) {
 
-            for (Bank value : this.bankAccounts.values()) {
+            for (Map.Entry<String, Bank> value : this.bankAccounts.entrySet()) {
                 preparedStatement.setString(1, this.parent.getUuid().toString());
-                preparedStatement.setString(2, value.getEconomyId().getEconomyIdentifier());
-                preparedStatement.setDouble(3, value.getBalance());
+                preparedStatement.setString(2, value.getValue().getEconomyId().getEconomyIdentifier());
+                preparedStatement.setDouble(3, value.getValue().getBalance());
                 preparedStatement.addBatch();
+                System.out.println("EXECUTING UPDATE NOW " + value.getValue().getBalance() + " " + value.getValue().getId() + " " + value.getKey());
             }
 
             preparedStatement.executeUpdate();
