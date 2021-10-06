@@ -96,7 +96,6 @@ public class EconomiesAttribute extends AbstractForgeAttribute<EconomiesForge> {
                 preparedStatement.setString(2, value.getValue().getEconomyId().getEconomyIdentifier());
                 preparedStatement.setDouble(3, value.getValue().getBalance());
                 preparedStatement.addBatch();
-                System.out.println("EXECUTING UPDATE NOW " + value.getValue().getBalance() + " " + value.getValue().getId() + " " + value.getKey());
             }
 
             preparedStatement.executeUpdate();
