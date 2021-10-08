@@ -38,7 +38,8 @@ public class BalanceCommand {
 
         envyPlayer.message(UtilChatColour.translateColourCodes('&', EconomiesForge.getInstance()
                 .getLocale().getBalance().replace("%value%",
-                        (economy.isPrefix() ? economy.getEconomyIdentifier() : "") + playerAccount.getBalance()
+                        (economy.isPrefix() ? economy.getEconomyIdentifier() : "") +
+                                String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), playerAccount.getBalance())
                                 + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))));
     }
 }

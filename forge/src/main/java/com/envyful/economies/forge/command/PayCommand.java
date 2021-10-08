@@ -58,7 +58,8 @@ public class PayCommand {
         if (value < economy.getMinimumPayAmount()) {
             envyPlayer.message(UtilChatColour.translateColourCodes('&', EconomiesForge.getInstance()
                     .getLocale().getMinimumPayAmount().replace("%value%",
-                            (economy.isPrefix() ? economy.getEconomyIdentifier() : "") + value
+                            (economy.isPrefix() ? economy.getEconomyIdentifier() : "") +
+                                    String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), value)
                                     + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))));
             return;
         }
@@ -78,12 +79,14 @@ public class PayCommand {
 
         envyPlayer.message(UtilChatColour.translateColourCodes('&', EconomiesForge.getInstance()
                 .getLocale().getTakenMoney().replace("%value%",
-                        (economy.isPrefix() ? economy.getEconomyIdentifier() : "") + value
+                        (economy.isPrefix() ? economy.getEconomyIdentifier() : "") +
+                                String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), value)
                                 + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))));
 
         targetPlayer.message(UtilChatColour.translateColourCodes('&', EconomiesForge.getInstance()
                 .getLocale().getGivenMoney().replace("%value%",
-                        (economy.isPrefix() ? economy.getEconomyIdentifier() : "") + value
+                        (economy.isPrefix() ? economy.getEconomyIdentifier() : "") +
+                                String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), value)
                                 + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))));
     }
 }
