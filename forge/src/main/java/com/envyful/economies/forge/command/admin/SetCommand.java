@@ -61,7 +61,9 @@ public class SetCommand {
                 '&',
                 EconomiesForge.getInstance().getLocale().getAdminSetMoney()
                         .replace("%player%", targetPlayer.getName())
-                        .replace("%value%", value + "")
+                        .replace("%value%",
+                                 String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), value))
+                        .replace("%sender%", sender.getName())
         )));
     }
 }

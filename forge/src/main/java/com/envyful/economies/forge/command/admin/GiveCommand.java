@@ -59,13 +59,19 @@ public class GiveCommand {
 
         targetPlayer.message(UtilChatColour.translateColourCodes('&', EconomiesForge.getInstance()
                 .getLocale().getGivenMoney().replace("%value%",
-                        (economy.isPrefix() ? economy.getEconomyIdentifier() : "") + value
-                                + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))));
+                        (economy.isPrefix() ? economy.getEconomyIdentifier() : "") +
+                                String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), value)
+                                + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))
+        .replace("%sender%", sender.getName())
+        .replace("%player%", targetPlayer.getName())));
 
         sender.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes('&',
                 EconomiesForge.getInstance().getLocale().getAdminGivenMoney()
                         .replace("%player%", target.getName())
-                        .replace("%value%", (economy.isPrefix() ? economy.getEconomyIdentifier() : "") + value
-                                + (!economy.isPrefix() ? economy.getEconomyIdentifier() : "")))));
+                        .replace("%value%", (economy.isPrefix() ? economy.getEconomyIdentifier() : "") +
+                                String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), value)
+                                + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))
+                        .replace("%sender%", sender.getName())
+        )));
     }
 }

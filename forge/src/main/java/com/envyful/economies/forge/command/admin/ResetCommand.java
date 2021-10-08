@@ -50,7 +50,8 @@ public class ResetCommand {
         sender.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes('&',
                 EconomiesForge.getInstance().getLocale().getAdminResetMoney()
                         .replace("%player%", target.getName())
-                        .replace("%value%", (economy.isPrefix() ? economy.getEconomyIdentifier() : "") + economy.getDefaultValue()
+                        .replace("%value%", (economy.isPrefix() ? economy.getEconomyIdentifier() : "") +
+                                         String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), economy.getDefaultValue())
                                 + (!economy.isPrefix() ? economy.getEconomyIdentifier() : "")))));
     }
 }
