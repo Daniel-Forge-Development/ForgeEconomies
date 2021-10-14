@@ -39,7 +39,7 @@ import java.sql.SQLException;
 )
 public class EconomiesForge {
 
-    protected static final String VERSION = "0.1.0";
+    protected static final String VERSION = "0.1.1";
 
     private static EconomiesForge instance;
 
