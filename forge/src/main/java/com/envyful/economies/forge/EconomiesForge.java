@@ -115,12 +115,10 @@ public class EconomiesForge {
     public void onServerStart(FMLServerStartedEvent event) {
         MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 
-        UtilConcurrency.runAsync(() -> {
-            this.commandFactory.registerCommand(server, new EconomiesCommand());
-            this.commandFactory.registerCommand(server, new PayCommand());
-            this.commandFactory.registerCommand(server, new BalanceCommand());
-            this.commandFactory.registerCommand(server, new BaltopCommand());
-        });
+        this.commandFactory.registerCommand(server, new EconomiesCommand());
+        this.commandFactory.registerCommand(server, new PayCommand());
+        this.commandFactory.registerCommand(server, new BalanceCommand());
+        this.commandFactory.registerCommand(server, new BaltopCommand());
     }
 
     public static EconomiesForge getInstance() {
