@@ -84,8 +84,10 @@ public class EconomiesForge {
             this.database = new SimpleHikariDatabase(this.config.getDatabase());
 
             try (Connection connection = this.database.getConnection();
-                 PreparedStatement preparedStatement = connection.prepareStatement(EconomiesQueries.CREATE_TABLE)) {
+                 PreparedStatement preparedStatement = connection.prepareStatement(EconomiesQueries.CREATE_TABLE);
+                 PreparedStatement updateStatement = connection.prepareStatement(EconomiesQueries.UPDATE_TABLE)) {
                 preparedStatement.executeUpdate();
+                updateStatement.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

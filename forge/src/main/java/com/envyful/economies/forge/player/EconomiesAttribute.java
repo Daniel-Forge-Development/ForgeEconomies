@@ -93,8 +93,9 @@ public class EconomiesAttribute extends AbstractForgeAttribute<EconomiesForge> {
 
             for (Map.Entry<String, Bank> value : this.bankAccounts.entrySet()) {
                 preparedStatement.setString(1, this.parent.getUuid().toString());
-                preparedStatement.setString(2, value.getValue().getEconomyId().getEconomyIdentifier());
-                preparedStatement.setDouble(3, value.getValue().getBalance());
+                preparedStatement.setString(2, this.parent.getName());
+                preparedStatement.setString(3, value.getValue().getEconomyId().getEconomyIdentifier());
+                preparedStatement.setDouble(4, value.getValue().getBalance());
                 preparedStatement.addBatch();
             }
 

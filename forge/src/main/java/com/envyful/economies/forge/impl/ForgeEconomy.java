@@ -3,6 +3,7 @@ package com.envyful.economies.forge.impl;
 import com.envyful.api.database.leaderboard.Order;
 import com.envyful.api.database.leaderboard.SQLLeaderboard;
 import com.envyful.economies.api.Economy;
+import com.envyful.economies.forge.EconomiesForge;
 
 import java.util.concurrent.TimeUnit;
 
@@ -32,10 +33,12 @@ public class ForgeEconomy implements Economy {
                 .order(Order.ASCENDING)
                 .pageSize(10)
                 .cacheDuration(TimeUnit.MINUTES.toMillis(30))
-                .formatter(resultSet -> "") //TODO
+                .formatter((resultSet, pos) -> pos + ". " + resultSet.getString("name") + " " +
+                        String.format("%.2f", (float) resultSet.getLong("balance")))
                 .table("forge_economies_banks")
                 .column("balance")
                 .extraClauses("economy = '" + this.id + "'")
+                .database(EconomiesForge.getInstance().getDatabase())
                 .build();
     }
 
