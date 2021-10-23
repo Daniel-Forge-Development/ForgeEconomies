@@ -29,7 +29,7 @@ public class BaltopCommand {
             return;
         }
 
-        for (String s : economy.getLeaderboard().getPage(page)) {
+        for (String s : economy.getLeaderboard().getPage(page - 1)) {
             player.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes('&', s)));
         }
     }

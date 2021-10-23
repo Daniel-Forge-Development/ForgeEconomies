@@ -89,7 +89,7 @@ public class EconomiesForge {
                 preparedStatement.executeUpdate();
                 updateStatement.executeUpdate();
             } catch (SQLException e) {
-                e.printStackTrace();
+                /*e.printStackTrace();*/
             }
         });
     }

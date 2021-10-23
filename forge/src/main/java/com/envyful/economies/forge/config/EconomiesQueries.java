@@ -16,8 +16,9 @@ public class EconomiesQueries {
     public static final String LOAD_USER = "SELECT name, economy, balance FROM `forge_economies_banks` WHERE uuid = ?;";
 
     public static final String CREATE_OR_UPDATE_ACCOUNT = "INSERT INTO `forge_economies_banks`(uuid, name, economy, balance) " +
-            "VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE balance = VALUES(`balance`), name = VALUES(`name`);";
+            "VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE balance = VALUES(`balance`), name = VALUES(`name`);";
 
-    public static final String UPDATE_TABLE = "ALTER TABLE `` ADD COLUMN name VARCHAR(16) NOT NULL DEFAULT 'unnamed' AFTER uuid;";
+    public static final String UPDATE_TABLE = "ALTER TABLE `forge_economies_banks` ADD COLUMN name VARCHAR(16) NOT " +
+            "NULL DEFAULT 'unnamed' AFTER uuid;";
 
 }

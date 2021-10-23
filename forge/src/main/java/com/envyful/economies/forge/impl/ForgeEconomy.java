@@ -30,14 +30,17 @@ public class ForgeEconomy implements Economy {
         this.defaultValue = defaultValue;
         this.minimumPayAmount = minimumPayAmount;
         this.leaderboard = SQLLeaderboard.builder()
-                .order(Order.ASCENDING)
+                .order(Order.DESCENDING)
                 .pageSize(10)
                 .cacheDuration(TimeUnit.MINUTES.toMillis(30))
-                .formatter((resultSet, pos) -> pos + ". " + resultSet.getString("name") + " " +
-                        String.format("%.2f", (float) resultSet.getLong("balance")))
+                .formatter((resultSet, pos) -> EconomiesForge.getInstance().getLocale().getBaltopFormat()
+                            .replace("%pos%", (pos + 1) + "")
+                            .replace("%name%", resultSet.getString("name"))
+                            .replace("%balance%", String.format("%.2f", (float) resultSet.getLong("balance")))
+                )
                 .table("forge_economies_banks")
                 .column("balance")
-                .extraClauses("economy = '" + this.id + "'")
+                .extraClauses("economy = '" + this.getEconomyIdentifier() + "'")
                 .database(EconomiesForge.getInstance().getDatabase())
                 .build();
     }
