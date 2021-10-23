@@ -30,7 +30,7 @@ public class BalanceCommand {
     public void onCommand(@Sender EntityPlayerMP player,
                           @Completable(EconomyTabCompleter.class) @Argument Economy economy,
                           String[] args) {
-        if (args.length == 0) {
+        if (args.length == 1) {
             EnvyPlayer<EntityPlayerMP> envyPlayer = EconomiesForge.getInstance().getPlayerManager().getPlayer(player);
             EconomiesAttribute playerAttribute = envyPlayer.getAttribute(EconomiesForge.class);
 
@@ -50,7 +50,7 @@ public class BalanceCommand {
             return;
         }
 
-        EnvyPlayer<?> target = EconomiesForge.getInstance().getPlayerManager().getOnlinePlayer(args[0]);
+        EnvyPlayer<?> target = EconomiesForge.getInstance().getPlayerManager().getOnlinePlayer(args[1]);
 
         if (target == null) {
             player.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(
