@@ -13,6 +13,7 @@ import com.envyful.economies.forge.EconomiesForge;
 import com.envyful.economies.forge.impl.EconomyTabCompleter;
 import com.envyful.economies.forge.player.EconomiesAttribute;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.text.TextComponentString;
 
 @Command(
         value = "balance",
@@ -26,20 +27,55 @@ import net.minecraft.entity.player.EntityPlayerMP;
 public class BalanceCommand {
 
     @CommandProcessor
-    public void onCommand(@Sender EntityPlayerMP player, @Completable(EconomyTabCompleter.class) @Argument Economy economy) {
-        EnvyPlayer<EntityPlayerMP> envyPlayer = EconomiesForge.getInstance().getPlayerManager().getPlayer(player);
-        EconomiesAttribute playerAttribute = envyPlayer.getAttribute(EconomiesForge.class);
+    public void onCommand(@Sender EntityPlayerMP player,
+                          @Completable(EconomyTabCompleter.class) @Argument Economy economy,
+                          String[] args) {
+        if (args.length == 0) {
+            EnvyPlayer<EntityPlayerMP> envyPlayer = EconomiesForge.getInstance().getPlayerManager().getPlayer(player);
+            EconomiesAttribute playerAttribute = envyPlayer.getAttribute(EconomiesForge.class);
 
-        if (playerAttribute == null) {
+            if (playerAttribute == null) {
+                return;
+            }
+
+            Bank playerAccount = playerAttribute.getAccount(economy);
+
+            envyPlayer.message(UtilChatColour.translateColourCodes('&', EconomiesForge.getInstance()
+                    .getLocale().getBalance().replace(
+                            "%value%",
+                            (economy.isPrefix() ? economy.getEconomyIdentifier() : "") +
+                                    String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), playerAccount.getBalance())
+                                    + (!economy.isPrefix() ? economy.getEconomyIdentifier() : "")
+                    )));
             return;
         }
 
-        Bank playerAccount = playerAttribute.getAccount(economy);
+        EnvyPlayer<?> target = EconomiesForge.getInstance().getPlayerManager().getOnlinePlayer(args[0]);
 
-        envyPlayer.message(UtilChatColour.translateColourCodes('&', EconomiesForge.getInstance()
-                .getLocale().getBalance().replace("%value%",
-                        (economy.isPrefix() ? economy.getEconomyIdentifier() : "") +
-                                String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), playerAccount.getBalance())
-                                + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))));
+        if (target == null) {
+            player.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(
+                    '&',
+                    EconomiesForge.getInstance().getLocale().getPlayerNotOnline()
+            )));
+            return;
+        }
+
+        EconomiesAttribute targetAttribute = target.getAttribute(EconomiesForge.class);
+
+        if (targetAttribute == null) {
+            player.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(
+                    '&',
+                    EconomiesForge.getInstance().getLocale().getPlayerNotOnline()
+            )));
+            return;
+        }
+
+        Bank account = targetAttribute.getAccount(economy);
+        player.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(
+                '&',
+                EconomiesForge.getInstance().getLocale().getTargetBalance()
+                .replace("%target%", target.getName())
+                .replace("%balance%", String.format("%.2f", account.getBalance()))
+        )));
     }
 }
