@@ -81,12 +81,16 @@ public class PayCommand {
                 .getLocale().getTakenMoney().replace("%value%",
                         (economy.isPrefix() ? economy.getEconomyIdentifier() : "") +
                                 String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), value)
-                                + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))));
+                                + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))
+                .replace("%player%", targetPlayer.getName())
+                .replace("%sender%", envyPlayer.getName())));
 
         targetPlayer.message(UtilChatColour.translateColourCodes('&', EconomiesForge.getInstance()
                 .getLocale().getGivenMoney().replace("%value%",
                         (economy.isPrefix() ? economy.getEconomyIdentifier() : "") +
                                 String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), value)
-                                + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))));
+                                + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))
+        .replace("%player%", targetPlayer.getName())
+        .replace("%sender%", envyPlayer.getName())));
     }
 }
