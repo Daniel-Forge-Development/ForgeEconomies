@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class OfflinePlayerData {
 
     private UUID uuid;
+    private String name;
     private long lastUpdate = System.currentTimeMillis();
     private Map<Economy, Bank> balances = Maps.newConcurrentMap();
 
@@ -34,6 +35,7 @@ public class OfflinePlayerData {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
+                this.name = resultSet.getString("name");
                 this.balances.put(economy, new ForgeBank(
                         this.uuid,
                         economy,
@@ -108,8 +110,9 @@ public class OfflinePlayerData {
 
                 for (Bank value : this.balances.values()) {
                     preparedStatement.setString(1, this.uuid.toString());
-                    preparedStatement.setString(2, value.getEconomyId().getEconomyIdentifier());
-                    preparedStatement.setDouble(3, value.getBalance());
+                    preparedStatement.setString(2, this.name);
+                    preparedStatement.setString(3, value.getEconomyId().getEconomyIdentifier());
+                    preparedStatement.setDouble(4, value.getBalance());
                     preparedStatement.addBatch();
                 }
 
