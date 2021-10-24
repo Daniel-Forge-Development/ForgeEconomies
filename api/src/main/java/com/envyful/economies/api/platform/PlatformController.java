@@ -22,4 +22,13 @@ public interface PlatformController {
      */
     void sendEconomyEvent(EnvyPlayer<?> player, Economy economy, double oldBalance, double newBalance, double change);
 
+    /**
+     *
+     * Gets the Pixelmon bank account balance using the Platform's bridge
+     *
+     * @param player The player who's balance you're obtaining
+     * @return The balance of the player
+     */
+    int getPixelmonBalance(EnvyPlayer<?> player);
+
 }
