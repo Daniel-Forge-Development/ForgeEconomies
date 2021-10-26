@@ -17,7 +17,7 @@ import net.minecraft.util.text.TextComponentString;
 
 @Command(
         value = "balance",
-        description = "§7/balance [economy]",
+        description = "§7/balance [economy] (player)",
         aliases = {
                 "ebalance",
                 "ebal",
@@ -31,7 +31,7 @@ public class BalanceCommand {
                           @Completable(EconomyTabCompleter.class) @Argument Economy economy,
                           String[] args) {
         if (args.length == 0) {
-            player.sendMessage(new TextComponentString("§7/balance [economy]"));
+            player.sendMessage(new TextComponentString("§7/balance [economy] (player)"));
             return;
         }
 
