@@ -1,5 +1,6 @@
 package com.envyful.economies.forge.impl;
 
+import com.envyful.api.concurrency.UtilConcurrency;
 import com.envyful.api.database.leaderboard.Order;
 import com.envyful.api.database.leaderboard.SQLLeaderboard;
 import com.envyful.economies.api.Economy;
@@ -17,7 +18,8 @@ public class ForgeEconomy implements Economy {
     private final boolean isDefault;
     private final double defaultValue;
     private final double minimumPayAmount;
-    private final SQLLeaderboard leaderboard;
+
+    private SQLLeaderboard leaderboard;
 
     public ForgeEconomy(String id, String displayname, String displaynamePlural, String identifier, boolean prefix, boolean isDefault, double defaultValue,
                         double minimumPayAmount) {
@@ -29,14 +31,23 @@ public class ForgeEconomy implements Economy {
         this.isDefault = isDefault;
         this.defaultValue = defaultValue;
         this.minimumPayAmount = minimumPayAmount;
+
+        if (EconomiesForge.getInstance().getDatabase() == null) {
+            UtilConcurrency.runLater(this::initLeaderboard, 40L);
+        } else {
+            this.initLeaderboard();
+        }
+    }
+
+    private void initLeaderboard() {
         this.leaderboard = SQLLeaderboard.builder()
                 .order(Order.DESCENDING)
                 .pageSize(10)
                 .cacheDuration(TimeUnit.MINUTES.toMillis(30))
                 .formatter((resultSet, pos) -> EconomiesForge.getInstance().getLocale().getBaltopFormat()
-                            .replace("%pos%", (pos + 1) + "")
-                            .replace("%name%", resultSet.getString("name"))
-                            .replace("%balance%", String.format("%.2f", (float) resultSet.getLong("balance")))
+                        .replace("%pos%", (pos + 1) + "")
+                        .replace("%name%", resultSet.getString("name"))
+                        .replace("%balance%", String.format("%.2f", (float) resultSet.getLong("balance")))
                 )
                 .table("forge_economies_banks")
                 .column("balance")
