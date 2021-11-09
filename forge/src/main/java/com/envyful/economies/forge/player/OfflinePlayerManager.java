@@ -36,7 +36,9 @@ public class OfflinePlayerManager {
             return offlinePlayerData;
         }
 
-        return new OfflinePlayerData(uuid, economy);
+        OfflinePlayerData offlineData = new OfflinePlayerData(uuid, economy);
+        OFFLINE_CACHE.put(uuid, offlineData);
+        return offlineData;
     }
 
     public static Bank getPlayerBalance(UUID uuid, Economy economy) {
@@ -46,7 +48,9 @@ public class OfflinePlayerManager {
             return offlinePlayerData.getBalance(economy);
         }
 
-        return new OfflinePlayerData(uuid, economy).getBalance(economy);
+        OfflinePlayerData offlineData = new OfflinePlayerData(uuid, economy);
+        OFFLINE_CACHE.put(uuid, offlineData);
+        return offlineData.getBalance(economy);
     }
 
     public static final class CacheTask implements Runnable {
