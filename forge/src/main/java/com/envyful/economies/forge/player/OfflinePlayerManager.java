@@ -28,6 +28,8 @@ public class OfflinePlayerManager {
             return cachedData;
         }
 
+        System.out.println("FAILED TO FIND CACHE");
+
         try {
             OfflinePlayerData offlineData = new OfflinePlayerData(name, economy);
             OFFLINE_CACHE.put(offlineData.getUniqueId(), offlineData);
@@ -39,7 +41,7 @@ public class OfflinePlayerManager {
 
     private static OfflinePlayerData searchByName(String name) {
         for (OfflinePlayerData value : OFFLINE_CACHE.values()) {
-            if (value.getName().equalsIgnoreCase("name")) {
+            if (value.getName().equalsIgnoreCase(name)) {
                 return value;
             }
         }
