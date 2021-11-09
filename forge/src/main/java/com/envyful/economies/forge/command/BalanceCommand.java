@@ -12,6 +12,8 @@ import com.envyful.economies.api.Economy;
 import com.envyful.economies.forge.EconomiesForge;
 import com.envyful.economies.forge.impl.EconomyTabCompleter;
 import com.envyful.economies.forge.player.EconomiesAttribute;
+import com.envyful.economies.forge.player.OfflinePlayerData;
+import com.envyful.economies.forge.player.OfflinePlayerManager;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextComponentString;
 
@@ -58,9 +60,22 @@ public class BalanceCommand {
         EnvyPlayer<?> target = EconomiesForge.getInstance().getPlayerManager().getOnlinePlayer(args[1]);
 
         if (target == null) {
+            OfflinePlayerData playerByName = OfflinePlayerManager.getPlayerByName(args[1], economy);
+
+            if (playerByName == null) {
+                player.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(
+                        '&',
+                        EconomiesForge.getInstance().getLocale().getPlayerNotFound()
+                )));
+                return;
+            }
+
+            Bank account = playerByName.getBalance(economy);
             player.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(
                     '&',
-                    EconomiesForge.getInstance().getLocale().getPlayerNotOnline()
+                    EconomiesForge.getInstance().getLocale().getTargetBalance()
+                            .replace("%target%", target.getName())
+                            .replace("%balance%", String.format("%.2f", account.getBalance()))
             )));
             return;
         }

@@ -17,6 +17,8 @@ import com.envyful.economies.api.Economy;
 import com.envyful.economies.forge.EconomiesForge;
 import com.envyful.economies.forge.impl.EconomyTabCompleter;
 import com.envyful.economies.forge.player.EconomiesAttribute;
+import com.envyful.economies.forge.player.OfflinePlayerData;
+import com.envyful.economies.forge.player.OfflinePlayerManager;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextComponentString;
@@ -31,21 +33,56 @@ public class TakeCommand {
 
     @CommandProcessor
     public void onCommand(@Sender ICommandSender sender,
-                          @Completable(PlayerTabCompleter.class) @Argument EntityPlayerMP target,
+                          @Completable(PlayerTabCompleter.class) @Argument String target,
                           @Completable(EconomyTabCompleter.class) @Argument Economy economy,
                           @Completable(IntegerTabCompleter.class) @IntCompletionData(min = 1, max = 20) @Argument double value) {
-        EnvyPlayer<EntityPlayerMP> targetPlayer = EconomiesForge.getInstance().getPlayerManager().getPlayer(target);
-        EconomiesAttribute attribute = targetPlayer.getAttribute(EconomiesForge.class);
-
-        if (attribute == null) {
-            return;
-        }
+        EnvyPlayer<EntityPlayerMP> targetPlayer = EconomiesForge.getInstance().getPlayerManager().getOnlinePlayer(target);
 
         if (value <= 0) {
             sender.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(
                     '&',
                     EconomiesForge.getInstance().getLocale().getCannotTakeLessThanZero()
             )));
+            return;
+        }
+
+        if (targetPlayer == null) {
+            OfflinePlayerData playerByName = OfflinePlayerManager.getPlayerByName(target, economy);
+
+            if (playerByName == null) {
+                sender.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(
+                        '&',
+                        EconomiesForge.getInstance().getLocale().getPlayerNotFound()
+                )));
+                return;
+            }
+
+            Bank balance = playerByName.getBalance(economy);
+
+            if (!balance.hasFunds(value)) {
+                sender.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(
+                        '&',
+                        EconomiesForge.getInstance().getLocale().getAdminInsufficientFunds()
+                )));
+                return;
+            }
+
+            balance.withdraw(value);
+            sender.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(
+                    '&',
+                    EconomiesForge.getInstance().getLocale().getAdminTakenMoney()
+                            .replace("%player%", targetPlayer.getName())
+                            .replace("%value%", (economy.isPrefix() ? economy.getEconomyIdentifier() : "") +
+                                    String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), value)
+                                    + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))
+                            .replace("%sender%", sender.getName())
+            )));
+            return;
+        }
+
+        EconomiesAttribute attribute = targetPlayer.getAttribute(EconomiesForge.class);
+
+        if (attribute == null) {
             return;
         }
 
@@ -79,7 +116,7 @@ public class TakeCommand {
         sender.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(
                 '&',
                 EconomiesForge.getInstance().getLocale().getAdminTakenMoney()
-                        .replace("%player%", target.getName())
+                        .replace("%player%", targetPlayer.getName())
                         .replace("%value%", (economy.isPrefix() ? economy.getEconomyIdentifier() : "") +
                                 String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), value)
                                 + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))

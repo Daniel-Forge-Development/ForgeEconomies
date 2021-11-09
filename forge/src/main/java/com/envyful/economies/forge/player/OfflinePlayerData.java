@@ -7,6 +7,7 @@ import com.envyful.economies.forge.EconomiesForge;
 import com.envyful.economies.forge.config.EconomiesConfig;
 import com.envyful.economies.forge.config.EconomiesQueries;
 import com.envyful.economies.forge.impl.ForgeBank;
+import com.envyful.economies.forge.player.exception.PlayerNotFoundException;
 import com.google.common.collect.Maps;
 
 import java.sql.Connection;
@@ -23,6 +24,31 @@ public class OfflinePlayerData {
     private String name;
     private long lastUpdate = System.currentTimeMillis();
     private Map<Economy, Bank> balances = Maps.newConcurrentMap();
+
+    public OfflinePlayerData(String name, Economy economy) throws PlayerNotFoundException {
+        try (Connection connection = EconomiesForge.getInstance().getDatabase().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(EconomiesQueries.LOAD_BY_NAME)) {
+            preparedStatement.setString(1, name.toLowerCase());
+            preparedStatement.setString(2, economy.getId());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (!resultSet.next()) {
+                throw new PlayerNotFoundException();
+            }
+
+            this.uuid = UUID.fromString(resultSet.getString("uuid"));
+            this.balances.put(economy, new ForgeBank(
+                    this.uuid,
+                    economy,
+                    resultSet.getDouble("balance")
+            ));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        UtilConcurrency.runAsync(this::load);
+    }
 
     public OfflinePlayerData(UUID uuid, Economy economy) {
         this.uuid = uuid;
@@ -47,6 +73,14 @@ public class OfflinePlayerData {
         }
 
         UtilConcurrency.runAsync(this::load);
+    }
+
+    public UUID getUniqueId() {
+        return this.uuid;
+    }
+
+    public String getName() {
+        return this.name;
     }
 
     public void updateLastAccess() {

@@ -3,6 +3,7 @@ package com.envyful.economies.forge.player;
 import com.envyful.api.concurrency.AsyncTaskBuilder;
 import com.envyful.economies.api.Bank;
 import com.envyful.economies.api.Economy;
+import com.envyful.economies.forge.player.exception.PlayerNotFoundException;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
@@ -18,6 +19,32 @@ public class OfflinePlayerManager {
                 .interval(1000L)
                 .task(new CacheTask())
                 .start();
+    }
+
+    public static OfflinePlayerData getPlayerByName(String name, Economy economy) {
+        OfflinePlayerData cachedData = searchByName(name);
+
+        if (cachedData != null) {
+            return cachedData;
+        }
+
+        try {
+            OfflinePlayerData offlineData = new OfflinePlayerData(name, economy);
+            OFFLINE_CACHE.put(offlineData.getUniqueId(), offlineData);
+            return offlineData;
+        } catch (PlayerNotFoundException e) {
+            return null;
+        }
+    }
+
+    private static OfflinePlayerData searchByName(String name) {
+        for (OfflinePlayerData value : OFFLINE_CACHE.values()) {
+            if (value.getName().equalsIgnoreCase("name")) {
+                return value;
+            }
+        }
+
+        return null;
     }
 
     public static boolean isCached(UUID uuid) {

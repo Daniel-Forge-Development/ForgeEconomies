@@ -14,6 +14,8 @@ import com.envyful.economies.api.Economy;
 import com.envyful.economies.forge.EconomiesForge;
 import com.envyful.economies.forge.impl.EconomyTabCompleter;
 import com.envyful.economies.forge.player.EconomiesAttribute;
+import com.envyful.economies.forge.player.OfflinePlayerData;
+import com.envyful.economies.forge.player.OfflinePlayerManager;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextComponentString;
 
@@ -33,39 +35,29 @@ public class PayCommand {
     @CommandProcessor
     public void onCommand(@Sender EntityPlayerMP player,
                           @Completable(EconomyTabCompleter.class) @Argument Economy economy,
-                          @Completable(PlayerTabCompleter.class) @ExcludeSelfCompletion @Argument EntityPlayerMP target,
+                          @Completable(PlayerTabCompleter.class) @ExcludeSelfCompletion @Argument String target,
                           @Argument double value) {
-        if (Objects.equals(player.getUniqueID(), target.getUniqueID())) {
-            player.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes('&',
-                    EconomiesForge.getInstance().getLocale().getCannotPayYourself())));
-            return;
-        }
-
-        EnvyPlayer<EntityPlayerMP> targetPlayer = EconomiesForge.getInstance().getPlayerManager().getPlayer(target);
-        EconomiesAttribute targetAttribute = targetPlayer.getAttribute(EconomiesForge.class);
-
-        if (targetAttribute == null) {
-            return;
-        }
-
         EnvyPlayer<EntityPlayerMP> envyPlayer = EconomiesForge.getInstance().getPlayerManager().getPlayer(player);
+        EnvyPlayer<EntityPlayerMP> targetPlayer = EconomiesForge.getInstance().getPlayerManager().getOnlinePlayer(target);
+
+        if (value < economy.getMinimumPayAmount()) {
+            envyPlayer.message(UtilChatColour.translateColourCodes('&', EconomiesForge.getInstance()
+                    .getLocale().getMinimumPayAmount().replace(
+                            "%value%",
+                            (economy.isPrefix() ? economy.getEconomyIdentifier() : "") +
+                                    String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), value)
+                                    + (!economy.isPrefix() ? economy.getEconomyIdentifier() : "")
+                    )));
+            return;
+        }
+
         EconomiesAttribute playerAttribute = envyPlayer.getAttribute(EconomiesForge.class);
 
         if (playerAttribute == null) {
             return;
         }
 
-        if (value < economy.getMinimumPayAmount()) {
-            envyPlayer.message(UtilChatColour.translateColourCodes('&', EconomiesForge.getInstance()
-                    .getLocale().getMinimumPayAmount().replace("%value%",
-                            (economy.isPrefix() ? economy.getEconomyIdentifier() : "") +
-                                    String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), value)
-                                    + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))));
-            return;
-        }
-
         Bank playerAccount = playerAttribute.getAccount(economy);
-        Bank targetAccount = targetAttribute.getAccount(economy);
 
         if (!playerAccount.hasFunds(value)) {
             envyPlayer.message(UtilChatColour.translateColourCodes('&', EconomiesForge.getInstance()
@@ -73,6 +65,46 @@ public class PayCommand {
                     .replace("%economy_name%", economy.getDisplayName())));
             return;
         }
+
+        if (targetPlayer == null) {
+            OfflinePlayerData playerByName = OfflinePlayerManager.getPlayerByName(target, economy);
+
+            if (playerByName == null) {
+                player.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(
+                        '&',
+                        EconomiesForge.getInstance().getLocale().getPlayerNotFound()
+                )));
+                return;
+            }
+
+            Bank balance = playerByName.getBalance(economy);
+
+            playerAccount.withdraw(value);
+            balance.deposit(value);
+
+            envyPlayer.message(UtilChatColour.translateColourCodes('&', EconomiesForge.getInstance()
+                    .getLocale().getTakenMoney().replace("%value%",
+                                                         (economy.isPrefix() ? economy.getEconomyIdentifier() : "") +
+                                                                 String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), value)
+                                                                 + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))
+                    .replace("%player%", targetPlayer.getName())
+                    .replace("%sender%", envyPlayer.getName())));
+            return;
+        }
+
+        if (Objects.equals(player.getUniqueID(), targetPlayer.getUuid())) {
+            player.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes('&',
+                    EconomiesForge.getInstance().getLocale().getCannotPayYourself())));
+            return;
+        }
+
+        EconomiesAttribute targetAttribute = targetPlayer.getAttribute(EconomiesForge.class);
+
+        if (targetAttribute == null) {
+            return;
+        }
+
+        Bank targetAccount = targetAttribute.getAccount(economy);
 
         playerAccount.withdraw(value);
         targetAccount.deposit(value);

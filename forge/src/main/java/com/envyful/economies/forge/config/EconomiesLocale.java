@@ -28,6 +28,7 @@ public class EconomiesLocale extends AbstractYamlConfig {
     private String cannotTakeLessThanZero = "&c&l(!) &cYou cannot take an amount less than 0";
     private String cannotGiveLessThanZero = "&c&l(!) &cYou cannot give an amount less than 0";
     private String playerNotOnline = "&c&l(!) &cCannot find that player as they are not online";
+    private String playerNotFound = "&c&l(!) &cCannot find that player";
 
     private String baltopFormat = "&e%pos%. &b%name% $%balance%";
     private String balanceFormat = "%.2f";
@@ -119,5 +120,9 @@ public class EconomiesLocale extends AbstractYamlConfig {
 
     public String getTargetBalance() {
         return this.targetBalance;
+    }
+
+    public String getPlayerNotFound() {
+        return this.playerNotFound;
     }
 }
