@@ -26,10 +26,12 @@ public class OfflinePlayerData {
     private Map<Economy, Bank> balances = Maps.newConcurrentMap();
 
     public OfflinePlayerData(String name, Economy economy) throws PlayerNotFoundException {
+        this.name = name;
+
         try (Connection connection = EconomiesForge.getInstance().getDatabase().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(EconomiesQueries.LOAD_BY_NAME)) {
             preparedStatement.setString(1, name.toLowerCase());
-            preparedStatement.setString(2, economy.getId());
+            preparedStatement.setString(2, economy.getEconomyIdentifier());
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -56,7 +58,7 @@ public class OfflinePlayerData {
         try (Connection connection = EconomiesForge.getInstance().getDatabase().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(EconomiesQueries.LOAD_SPECIFIC)) {
             preparedStatement.setString(1, this.uuid.toString());
-            preparedStatement.setString(2, economy.getId());
+            preparedStatement.setString(2, economy.getEconomyIdentifier());
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -104,15 +106,7 @@ public class OfflinePlayerData {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                EconomiesConfig.ConfigEconomy ecoConfig = EconomiesForge.getInstance().getConfig().getEconomies()
-                        .get(resultSet.getString("economy"));
-
-                if (ecoConfig == null) {
-                    System.out.println("DOESN'T EXIST: "+ resultSet.getString("economy"));
-                    continue;
-                }
-
-                Economy economy = ecoConfig.getEconomy();
+                Economy economy = getEconomy(resultSet.getString("economy"));
 
                 if (this.balances.containsKey(economy)) {
                     continue;
@@ -135,6 +129,15 @@ public class OfflinePlayerData {
 
             this.balances.put(eco.getEconomy(), new ForgeBank(this.uuid, eco.getEconomy(), eco.getEconomy().getDefaultValue()));
         }
+    }
+
+    private Economy getEconomy(String id) {
+        for (EconomiesConfig.ConfigEconomy value : EconomiesForge.getInstance().getConfig().getEconomies().values()) {
+            if (value.getEconomy().getEconomyIdentifier().equals(id)) {
+                return value.getEconomy();
+            }
+        }
+        return null;
     }
 
     public void save() {

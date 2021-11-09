@@ -87,7 +87,7 @@ public class PayCommand {
                                                          (economy.isPrefix() ? economy.getEconomyIdentifier() : "") +
                                                                  String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), value)
                                                                  + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))
-                    .replace("%player%", targetPlayer.getName())
+                    .replace("%player%", target)
                     .replace("%sender%", envyPlayer.getName())));
             return;
         }

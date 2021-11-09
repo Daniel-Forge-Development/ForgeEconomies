@@ -11,7 +11,7 @@ public class EconomiesQueries {
             "UNIQUE(uuid, economy), " +
             "PRIMARY KEY(id));";
 
-    public static final String LOAD_BY_NAME = "SELECT uuid, balance FROM `forge_economies_banks` WHERE LOWER(name) = ? AND economy = ?;";
+    public static final String LOAD_BY_NAME = "SELECT uuid, balance FROM `forge_economies_banks` WHERE name = ? AND economy = ?;";
 
     public static final String LOAD_SPECIFIC = "SELECT balance FROM `forge_economies_banks` WHERE uuid = ? AND economy = ?;";
 
