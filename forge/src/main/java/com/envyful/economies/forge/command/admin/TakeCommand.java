@@ -71,7 +71,7 @@ public class TakeCommand {
             sender.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(
                     '&',
                     EconomiesForge.getInstance().getLocale().getAdminTakenMoney()
-                            .replace("%player%", targetPlayer.getName())
+                            .replace("%player%", target)
                             .replace("%value%", (economy.isPrefix() ? economy.getEconomyIdentifier() : "") +
                                     String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), value)
                                     + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))

@@ -54,7 +54,7 @@ public class ResetCommand {
             sender.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(
                     '&',
                     EconomiesForge.getInstance().getLocale().getAdminResetMoney()
-                            .replace("%player%", targetPlayer.getName())
+                            .replace("%player%", target)
                             .replace("%value%", (economy.isPrefix() ? economy.getEconomyIdentifier() : "") +
                                     String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), economy.getDefaultValue())
                                     + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))

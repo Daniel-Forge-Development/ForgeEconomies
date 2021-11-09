@@ -64,7 +64,7 @@ public class SetCommand {
             sender.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(
                     '&',
                     EconomiesForge.getInstance().getLocale().getAdminSetMoney()
-                            .replace("%player%", targetPlayer.getName())
+                            .replace("%player%", target)
                             .replace("%value%",
                                      String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), value))
                             .replace("%sender%", sender.getName())
