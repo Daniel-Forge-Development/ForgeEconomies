@@ -74,7 +74,7 @@ public class BalanceCommand {
             player.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(
                     '&',
                     EconomiesForge.getInstance().getLocale().getTargetBalance()
-                            .replace("%target%", target.getName())
+                            .replace("%target%", args[1])
                             .replace("%balance%", String.format("%.2f", account.getBalance()))
             )));
             return;
