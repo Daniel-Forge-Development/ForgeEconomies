@@ -34,7 +34,7 @@ public class ResetCommand {
     public void onCommand(@Sender ICommandSender sender,
                           @Completable(PlayerTabCompleter.class) @Argument String target,
                           @Completable(EconomyTabCompleter.class) @Argument Economy economy) {
-        EnvyPlayer<EntityPlayerMP> targetPlayer = EconomiesForge.getInstance().getPlayerManager().getOnlinePlayer(target);
+        EnvyPlayer<EntityPlayerMP> targetPlayer = EconomiesForge.getInstance().getPlayerManager().getOnlinePlayerCaseInsensitive(target);
 
         if (targetPlayer == null) {
             OfflinePlayerData playerByName = OfflinePlayerManager.getPlayerByName(target, economy);

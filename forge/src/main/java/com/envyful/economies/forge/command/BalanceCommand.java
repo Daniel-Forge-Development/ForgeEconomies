@@ -57,7 +57,7 @@ public class BalanceCommand {
             return;
         }
 
-        EnvyPlayer<?> target = EconomiesForge.getInstance().getPlayerManager().getOnlinePlayer(args[1]);
+        EnvyPlayer<EntityPlayerMP> target = EconomiesForge.getInstance().getPlayerManager().getOnlinePlayerCaseInsensitive(args[1]);
 
         if (target == null) {
             OfflinePlayerData playerByName = OfflinePlayerManager.getPlayerByName(args[1], economy);

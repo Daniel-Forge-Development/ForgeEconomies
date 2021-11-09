@@ -37,7 +37,7 @@ public class SetCommand {
                           @Completable(PlayerTabCompleter.class) @Argument String target,
                           @Completable(EconomyTabCompleter.class) @Argument Economy economy,
                           @Completable(IntegerTabCompleter.class) @IntCompletionData(min = 1, max = 20) @Argument double value) {
-        EnvyPlayer<EntityPlayerMP> targetPlayer = EconomiesForge.getInstance().getPlayerManager().getOnlinePlayer(target);
+        EnvyPlayer<EntityPlayerMP> targetPlayer = EconomiesForge.getInstance().getPlayerManager().getOnlinePlayerCaseInsensitive(target);
 
         if (value <= 0) {
             sender.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(

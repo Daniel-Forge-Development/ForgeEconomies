@@ -38,7 +38,7 @@ public class PayCommand {
                           @Completable(PlayerTabCompleter.class) @ExcludeSelfCompletion @Argument String target,
                           @Argument double value) {
         EnvyPlayer<EntityPlayerMP> envyPlayer = EconomiesForge.getInstance().getPlayerManager().getPlayer(player);
-        EnvyPlayer<EntityPlayerMP> targetPlayer = EconomiesForge.getInstance().getPlayerManager().getOnlinePlayer(target);
+        EnvyPlayer<EntityPlayerMP> targetPlayer = EconomiesForge.getInstance().getPlayerManager().getOnlinePlayerCaseInsensitive(target);
 
         if (value < economy.getMinimumPayAmount()) {
             envyPlayer.message(UtilChatColour.translateColourCodes('&', EconomiesForge.getInstance()
