@@ -1,12 +1,17 @@
 package com.envyful.economies.spigot.bridge;
 
 import com.envyful.api.forge.player.ForgeEnvyPlayer;
+import com.envyful.economies.api.Bank;
 import com.envyful.economies.api.Economy;
 import com.envyful.economies.forge.EconomiesForge;
+import com.envyful.economies.forge.config.EconomiesConfig;
 import com.envyful.economies.forge.player.EconomiesAttribute;
+import com.envyful.economies.forge.player.OfflinePlayerData;
+import com.envyful.economies.forge.player.OfflinePlayerManager;
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
@@ -15,7 +20,17 @@ public class EconomiesForgeSpigot extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
+        getServer().getScheduler().runTaskLater(this, () -> {
+            for (EconomiesConfig.ConfigEconomy value :
+                    EconomiesForge.getInstance().getConfig().getEconomies().values()) {
+                if (value.getEconomy().isDefault()) {
+                    getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class,
+                                                              new ForgeEconomy(value.getEconomy()), this,
+                                                              ServicePriority.Highest
+                    );
+                }
+            }
+        }, 1L);
     }
 
     public static class ForgeEconomy extends AbstractEconomy {
@@ -78,7 +93,13 @@ public class EconomiesForgeSpigot extends JavaPlugin {
             ForgeEnvyPlayer onlinePlayer = EconomiesForge.getInstance().getPlayerManager().getOnlinePlayer(playerName);
 
             if (onlinePlayer == null) {
-                return 0;
+                OfflinePlayerData playerByName = OfflinePlayerManager.getPlayerByName(playerName, this.economy);
+
+                if (playerByName == null) {
+                    return 0;
+                }
+
+                return playerByName.getBalance(this.economy).getBalance();
             }
 
             EconomiesAttribute attribute = onlinePlayer.getAttribute(EconomiesForge.class);
@@ -87,24 +108,19 @@ public class EconomiesForgeSpigot extends JavaPlugin {
 
         @Override
         public double getBalance(String playerName, String world) {
-            return 0;
+            return this.getBalance(playerName);
         }
 
         @Override
         public boolean has(String playerName, double amount) {
-            ForgeEnvyPlayer onlinePlayer = EconomiesForge.getInstance().getPlayerManager().getOnlinePlayer(playerName);
-
-            if (onlinePlayer == null) {
-                return false;
-            }
-
-            EconomiesAttribute attribute = onlinePlayer.getAttribute(EconomiesForge.class);
-            return attribute.getAccount(this.economy).hasFunds(amount);
+            double balance = this.getBalance(playerName);
+            return balance >= amount;
         }
 
         @Override
         public boolean has(OfflinePlayer player, double amount) {
-            return false;
+            double balance = this.getBalance(player);
+            return balance >= amount;
         }
 
         @Override
@@ -114,7 +130,7 @@ public class EconomiesForgeSpigot extends JavaPlugin {
 
         @Override
         public boolean has(OfflinePlayer player, String worldName, double amount) {
-            return false;
+            return this.has(player, amount);
         }
 
         @Override
@@ -122,13 +138,27 @@ public class EconomiesForgeSpigot extends JavaPlugin {
             ForgeEnvyPlayer onlinePlayer = EconomiesForge.getInstance().getPlayerManager().getOnlinePlayer(playerName);
 
             if (onlinePlayer == null) {
-                return new EconomyResponse(amount, 0, EconomyResponse.ResponseType.FAILURE, "");
+                OfflinePlayerData offlinePlayerData = OfflinePlayerManager.getPlayerByName(playerName, this.economy);
+
+                if (offlinePlayerData == null) {
+                    return new EconomyResponse(amount, 0, EconomyResponse.ResponseType.FAILURE, "Player doesn't exist");
+                }
+
+                Bank balance = offlinePlayerData.getBalance(this.economy);
+
+                if (balance == null || !balance.hasFunds(amount)) {
+                    return new EconomyResponse(amount, 0, EconomyResponse.ResponseType.FAILURE, "Insufficient funds");
+                }
+
+                balance.withdraw(amount);
+                return new EconomyResponse(amount, balance.getBalance(),
+                                           EconomyResponse.ResponseType.SUCCESS, "");
             }
 
             EconomiesAttribute attribute = onlinePlayer.getAttribute(EconomiesForge.class);
 
             if (!attribute.getAccount(this.economy).hasFunds(amount)) {
-                return new EconomyResponse(amount, 0, EconomyResponse.ResponseType.FAILURE, "");
+                return new EconomyResponse(amount, 0, EconomyResponse.ResponseType.FAILURE, "Insufficient funds");
             }
 
             attribute.getAccount(this.economy).withdraw(amount);
@@ -138,17 +168,41 @@ public class EconomiesForgeSpigot extends JavaPlugin {
 
         @Override
         public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
-            return null;
+            return this.withdrawPlayer(playerName, amount);
         }
 
         @Override
         public EconomyResponse depositPlayer(String playerName, double amount) {
-            return null;
+            ForgeEnvyPlayer onlinePlayer = EconomiesForge.getInstance().getPlayerManager().getOnlinePlayer(playerName);
+
+            if (onlinePlayer == null) {
+                OfflinePlayerData offlinePlayerData = OfflinePlayerManager.getPlayerByName(playerName, this.economy);
+
+                if (offlinePlayerData == null) {
+                    return new EconomyResponse(amount, 0, EconomyResponse.ResponseType.FAILURE, "Player doesn't exist");
+                }
+
+                Bank balance = offlinePlayerData.getBalance(this.economy);
+
+                if (balance == null) {
+                    return new EconomyResponse(amount, 0, EconomyResponse.ResponseType.FAILURE, "Insufficient funds");
+                }
+
+                balance.deposit(amount);
+                return new EconomyResponse(amount, balance.getBalance(),
+                                           EconomyResponse.ResponseType.SUCCESS, "");
+            }
+
+            EconomiesAttribute attribute = onlinePlayer.getAttribute(EconomiesForge.class);
+
+            attribute.getAccount(this.economy).deposit(amount);
+            return new EconomyResponse(amount, attribute.getAccount(this.economy).getBalance(),
+                                       EconomyResponse.ResponseType.SUCCESS, "");
         }
 
         @Override
         public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
-            return null;
+            return this.depositPlayer(playerName, amount);
         }
 
         @Override
@@ -198,12 +252,12 @@ public class EconomiesForgeSpigot extends JavaPlugin {
 
         @Override
         public boolean createPlayerAccount(String playerName) {
-            return false;
+            return true;
         }
 
         @Override
         public boolean createPlayerAccount(String playerName, String worldName) {
-            return false;
+            return true;
         }
     }
 }
