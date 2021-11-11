@@ -75,3 +75,4 @@ reobf {
 }
 
 jar.finalizedBy('reobfJar')
+build.finalizedBy('versionedRelease')
