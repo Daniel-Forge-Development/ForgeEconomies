@@ -6,6 +6,7 @@ import com.envyful.api.database.Database;
 import com.envyful.api.database.impl.SimpleHikariDatabase;
 import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.forge.command.ForgeCommandFactory;
+import com.envyful.api.forge.player.ForgeEnvyPlayer;
 import com.envyful.api.forge.player.ForgePlayerManager;
 import com.envyful.economies.api.Economy;
 import com.envyful.economies.api.platform.PlatformController;
@@ -25,6 +26,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -121,6 +123,17 @@ public class EconomiesForge {
         this.commandFactory.registerCommand(server, new PayCommand());
         this.commandFactory.registerCommand(server, new BalanceCommand());
         this.commandFactory.registerCommand(server, new BaltopCommand());
+    }
+
+    @Mod.EventHandler
+    public void onServerStopping(FMLServerStoppingEvent event) {
+        for (ForgeEnvyPlayer onlinePlayer : this.playerManager.getOnlinePlayers()) {
+            EconomiesAttribute attribute = onlinePlayer.getAttribute(EconomiesForge.class);
+
+            if (attribute != null) {
+                attribute.save();
+            }
+        }
     }
 
     public static EconomiesForge getInstance() {
