@@ -35,7 +35,7 @@ public class SetCommand {
     @CommandProcessor
     public void onCommand(@Sender ICommandSender sender,
                           @Completable(PlayerTabCompleter.class) @Argument String target,
-                          @Completable(EconomyTabCompleter.class) @Argument Economy economy,
+                          @Completable(EconomyTabCompleter.class) @Argument(defaultValue = "default") Economy economy,
                           @Completable(IntegerTabCompleter.class) @IntCompletionData(min = 1, max = 20) @Argument double value) {
         EnvyPlayer<EntityPlayerMP> targetPlayer = EconomiesForge.getInstance().getPlayerManager().getOnlinePlayerCaseInsensitive(target);
 

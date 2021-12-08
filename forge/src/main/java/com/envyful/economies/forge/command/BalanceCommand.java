@@ -30,7 +30,7 @@ public class BalanceCommand {
 
     @CommandProcessor
     public void onCommand(@Sender EntityPlayerMP player,
-                          @Completable(EconomyTabCompleter.class) @Argument Economy economy,
+                          @Completable(EconomyTabCompleter.class) @Argument(defaultValue = "default") Economy economy,
                           String[] args) {
         if (args.length == 0) {
             player.sendMessage(new TextComponentString("§7/balance [economy] (player)"));

@@ -22,7 +22,8 @@ import net.minecraft.util.text.TextComponentString;
 public class BaltopCommand {
 
     @CommandProcessor
-    public void onCommand(@Sender EntityPlayerMP player, @Completable(EconomyTabCompleter.class) @Argument Economy economy, @Argument int page) {
+    public void onCommand(@Sender EntityPlayerMP player,
+                          @Completable(EconomyTabCompleter.class) @Argument(defaultValue = "default") Economy economy, @Argument int page) {
         if (page <= 0) {
             player.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes('&',
                     EconomiesForge.getInstance().getLocale().getPageMustBeGreaterThanZero())));

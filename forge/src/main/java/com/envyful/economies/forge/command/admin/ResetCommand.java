@@ -33,7 +33,7 @@ public class ResetCommand {
     @CommandProcessor
     public void onCommand(@Sender ICommandSender sender,
                           @Completable(PlayerTabCompleter.class) @Argument String target,
-                          @Completable(EconomyTabCompleter.class) @Argument Economy economy) {
+                          @Completable(EconomyTabCompleter.class) @Argument(defaultValue = "default") Economy economy) {
         EnvyPlayer<EntityPlayerMP> targetPlayer = EconomiesForge.getInstance().getPlayerManager().getOnlinePlayerCaseInsensitive(target);
 
         if (targetPlayer == null) {

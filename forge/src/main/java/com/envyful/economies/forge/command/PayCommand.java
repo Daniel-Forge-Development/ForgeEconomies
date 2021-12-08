@@ -34,7 +34,7 @@ public class PayCommand {
 
     @CommandProcessor
     public void onCommand(@Sender EntityPlayerMP player,
-                          @Completable(EconomyTabCompleter.class) @Argument Economy economy,
+                          @Completable(EconomyTabCompleter.class) @Argument(defaultValue = "default") Economy economy,
                           @Completable(PlayerTabCompleter.class) @ExcludeSelfCompletion @Argument String target,
                           @Argument double value) {
         EnvyPlayer<EntityPlayerMP> envyPlayer = EconomiesForge.getInstance().getPlayerManager().getPlayer(player);
