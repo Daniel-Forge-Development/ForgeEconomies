@@ -32,12 +32,7 @@ public class BalanceCommand {
     public void onCommand(@Sender EntityPlayerMP player,
                           @Completable(EconomyTabCompleter.class) @Argument(defaultValue = "default") Economy economy,
                           String[] args) {
-        if (args.length == 0) {
-            player.sendMessage(new TextComponentString("§7/balance [economy] (player)"));
-            return;
-        }
-
-        if (args.length == 1) {
+        if (args.length < 1) {
             EnvyPlayer<EntityPlayerMP> envyPlayer = EconomiesForge.getInstance().getPlayerManager().getPlayer(player);
             EconomiesAttribute playerAttribute = envyPlayer.getAttribute(EconomiesForge.class);
 
@@ -57,10 +52,10 @@ public class BalanceCommand {
             return;
         }
 
-        EnvyPlayer<EntityPlayerMP> target = EconomiesForge.getInstance().getPlayerManager().getOnlinePlayerCaseInsensitive(args[1]);
+        EnvyPlayer<EntityPlayerMP> target = EconomiesForge.getInstance().getPlayerManager().getOnlinePlayerCaseInsensitive(args[0]);
 
         if (target == null) {
-            OfflinePlayerData playerByName = OfflinePlayerManager.getPlayerByName(args[1], economy);
+            OfflinePlayerData playerByName = OfflinePlayerManager.getPlayerByName(args[0], economy);
 
             if (playerByName == null) {
                 player.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(
@@ -74,7 +69,7 @@ public class BalanceCommand {
             player.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(
                     '&',
                     EconomiesForge.getInstance().getLocale().getTargetBalance()
-                            .replace("%target%", args[1])
+                            .replace("%target%", args[0])
                             .replace("%balance%", String.format("%.2f", account.getBalance()))
             )));
             return;
