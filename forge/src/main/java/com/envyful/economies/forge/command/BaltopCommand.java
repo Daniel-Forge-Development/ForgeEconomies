@@ -23,7 +23,8 @@ public class BaltopCommand {
 
     @CommandProcessor
     public void onCommand(@Sender EntityPlayerMP player,
-                          @Completable(EconomyTabCompleter.class) @Argument(defaultValue = "default") Economy economy, @Argument int page) {
+                          @Completable(EconomyTabCompleter.class) @Argument(defaultValue = "default") Economy economy,
+                          @Argument(defaultValue = "1") int page) {
         if (page <= 0) {
             player.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes('&',
                     EconomiesForge.getInstance().getLocale().getPageMustBeGreaterThanZero())));
