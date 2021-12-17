@@ -10,6 +10,7 @@ import com.envyful.api.player.EnvyPlayer;
 import com.envyful.economies.api.Bank;
 import com.envyful.economies.api.Economy;
 import com.envyful.economies.forge.EconomiesForge;
+import com.envyful.economies.forge.config.EconomiesConfig;
 import com.envyful.economies.forge.impl.EconomyTabCompleter;
 import com.envyful.economies.forge.player.EconomiesAttribute;
 import com.envyful.economies.forge.player.OfflinePlayerData;
@@ -37,6 +38,16 @@ public class BalanceCommand {
             EconomiesAttribute playerAttribute = envyPlayer.getAttribute(EconomiesForge.class);
 
             if (playerAttribute == null) {
+                return;
+            }
+
+            if (EconomiesForge.getInstance().getConfig().isBalanceShowsAll()) {
+                for (String s : EconomiesForge.getInstance().getLocale().getAllBalanceFormat()) {
+                    envyPlayer.message(UtilChatColour.translateColourCodes('&',
+                                                                           this.handleAllPlaceholders(envyPlayer.getName(),
+                                                                                                      playerAttribute, s)));
+                }
+
                 return;
             }
 
@@ -85,6 +96,14 @@ public class BalanceCommand {
             return;
         }
 
+        if (EconomiesForge.getInstance().getConfig().isBalanceShowsAll()) {
+            for (String s : EconomiesForge.getInstance().getLocale().getAllBalanceFormat()) {
+                player.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes('&', this.handleAllPlaceholders(args[0], targetAttribute, s))));
+            }
+
+            return;
+        }
+
         Bank account = targetAttribute.getAccount(economy);
         player.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(
                 '&',
@@ -92,5 +111,19 @@ public class BalanceCommand {
                 .replace("%target%", target.getName())
                 .replace("%balance%", String.format("%.2f", account.getBalance()))
         )));
+    }
+
+    private String handleAllPlaceholders(String name, EconomiesAttribute attribute, String s) {
+        s = s.replace("%player%", name);
+
+        for (EconomiesConfig.ConfigEconomy value :
+                EconomiesForge.getInstance().getConfig().getEconomies().values()) {
+            s = s.replace(
+                    "%player_balance_" + value.getEconomy().getId() + "%",
+                    String.format("%.2f", attribute.getAccount(value.getEconomy()).getBalance())
+            );
+        }
+
+        return s;
     }
 }

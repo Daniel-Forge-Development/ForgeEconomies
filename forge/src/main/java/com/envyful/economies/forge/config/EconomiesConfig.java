@@ -18,6 +18,8 @@ public class EconomiesConfig extends AbstractYamlConfig {
     private SQLDatabaseDetails database = new SQLDatabaseDetails("EconomiesForge", "0.0.0.0", 3306,
             "admin", "password", "eco");
 
+    private boolean balanceShowsAll = false;
+
     private Map<String, ConfigEconomy> economies = Maps.newHashMap(ImmutableMap.of(
             "one", new ConfigEconomy("one", "dollar", "dollars", "$",
                     true, true, 250.0, 1.0)
@@ -25,6 +27,10 @@ public class EconomiesConfig extends AbstractYamlConfig {
 
     public EconomiesConfig() {
         super();
+    }
+
+    public boolean isBalanceShowsAll() {
+        return this.balanceShowsAll;
     }
 
     public SQLDatabaseDetails getDatabase() {

@@ -2,7 +2,10 @@ package com.envyful.economies.forge.config;
 
 import com.envyful.api.config.data.ConfigPath;
 import com.envyful.api.config.yaml.AbstractYamlConfig;
+import com.google.common.collect.Lists;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
+
+import java.util.List;
 
 @ConfigPath("config/EconomiesForge/locale.yml")
 @ConfigSerializable
@@ -33,6 +36,12 @@ public class EconomiesLocale extends AbstractYamlConfig {
     private String baltopFormat = "&e%pos%. &b%name% $%balance%";
     private String balanceFormat = "%.2f";
     private String targetBalance = "&e&l(!) &e%target% has $%balance%";
+
+    private List<String> allBalanceFormat = Lists.newArrayList(
+            "&8&m-------- &e%player%'s balance &8&m--------",
+            "&eCoins: %player_balance_coins%",
+            "&8&m--------------------"
+    );
 
     public EconomiesLocale() {
         super();
@@ -124,5 +133,9 @@ public class EconomiesLocale extends AbstractYamlConfig {
 
     public String getPlayerNotFound() {
         return this.playerNotFound;
+    }
+
+    public List<String> getAllBalanceFormat() {
+        return this.allBalanceFormat;
     }
 }
