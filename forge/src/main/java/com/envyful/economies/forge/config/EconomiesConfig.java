@@ -22,7 +22,7 @@ public class EconomiesConfig extends AbstractYamlConfig {
 
     private Map<String, ConfigEconomy> economies = Maps.newHashMap(ImmutableMap.of(
             "one", new ConfigEconomy("one", "dollar", "dollars", "$",
-                    true, true, 250.0, 1.0)
+                    true, true, 250.0, 1.0, "%.2f")
     ));
 
     public EconomiesConfig() {
@@ -52,11 +52,12 @@ public class EconomiesConfig extends AbstractYamlConfig {
         private boolean isDefault;
         private double defaultValue;
         private double minimumPayAmount;
+        private String economyFormat = "%.2f";
 
         private transient Economy economy = null;
 
         public ConfigEconomy(String id, String displayName, String displayNamePlural, String identifier, boolean prefix,
-                             boolean isDefault, double defaultValue, double minimumPayAmount) {
+                             boolean isDefault, double defaultValue, double minimumPayAmount, String economyFormat) {
             this.id = id;
             this.displayName = displayName;
             this.displayNamePlural = displayNamePlural;
@@ -65,6 +66,7 @@ public class EconomiesConfig extends AbstractYamlConfig {
             this.isDefault = isDefault;
             this.defaultValue = defaultValue;
             this.minimumPayAmount = minimumPayAmount;
+            this.economyFormat = economyFormat;
         }
 
         public ConfigEconomy() {
@@ -73,10 +75,16 @@ public class EconomiesConfig extends AbstractYamlConfig {
         public Economy getEconomy() {
             if (this.economy == null) {
                 this.economy = new ForgeEconomy(this.id, this.displayName, this.displayNamePlural, this.identifier,
-                        this.prefix, this.isDefault, this.defaultValue, minimumPayAmount);
+                                                this.prefix, this.isDefault, this.defaultValue, minimumPayAmount,
+                                                this.economyFormat
+                );
             }
 
             return this.economy;
+        }
+
+        public String getEconomyFormat() {
+            return this.economyFormat;
         }
     }
 }

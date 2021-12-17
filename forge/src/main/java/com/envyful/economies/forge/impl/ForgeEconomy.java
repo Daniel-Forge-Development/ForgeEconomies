@@ -18,11 +18,12 @@ public class ForgeEconomy implements Economy {
     private final boolean isDefault;
     private final double defaultValue;
     private final double minimumPayAmount;
+    private final String economyFormat;
 
     private SQLLeaderboard leaderboard;
 
     public ForgeEconomy(String id, String displayname, String displaynamePlural, String identifier, boolean prefix, boolean isDefault, double defaultValue,
-                        double minimumPayAmount) {
+                        double minimumPayAmount, String economyFormat) {
         this.id = id;
         this.displayname = displayname;
         this.displaynamePlural = displaynamePlural;
@@ -31,6 +32,7 @@ public class ForgeEconomy implements Economy {
         this.isDefault = isDefault;
         this.defaultValue = defaultValue;
         this.minimumPayAmount = minimumPayAmount;
+        this.economyFormat = economyFormat;
 
         if (EconomiesForge.getInstance().getDatabase() == null) {
             UtilConcurrency.runLater(this::initLeaderboard, 40L);
@@ -69,6 +71,11 @@ public class ForgeEconomy implements Economy {
     @Override
     public String getEconomyIdentifier() {
         return this.identifier;
+    }
+
+    @Override
+    public String getFormat() {
+        return this.economyFormat;
     }
 
     @Override

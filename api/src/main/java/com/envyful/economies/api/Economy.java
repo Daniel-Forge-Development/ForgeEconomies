@@ -43,6 +43,14 @@ public interface Economy {
 
     /**
      *
+     * Economy string format
+     *
+     * @return Format
+     */
+    String getFormat();
+
+    /**
+     *
      * Determines if the identifier is a prefix or suffix
      *
      * @return True = prefix

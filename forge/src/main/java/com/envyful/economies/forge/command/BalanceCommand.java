@@ -76,12 +76,27 @@ public class BalanceCommand {
                 return;
             }
 
+            if (EconomiesForge.getInstance().getConfig().isBalanceShowsAll()) {
+                for (String s : EconomiesForge.getInstance().getLocale().getAllBalanceFormat()) {
+                    player.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(
+                            '&',
+                            this.handleAllPlaceholders(
+                                    args[0],
+                                    playerByName,
+                                    s
+                            )
+                    )));
+                }
+
+                return;
+            }
+
             Bank account = playerByName.getBalance(economy);
             player.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes(
                     '&',
                     EconomiesForge.getInstance().getLocale().getTargetBalance()
                             .replace("%target%", args[0])
-                            .replace("%balance%", String.format("%.2f", account.getBalance()))
+                            .replace("%balance%", String.format(economy.getFormat(), account.getBalance()))
             )));
             return;
         }
@@ -109,7 +124,7 @@ public class BalanceCommand {
                 '&',
                 EconomiesForge.getInstance().getLocale().getTargetBalance()
                 .replace("%target%", target.getName())
-                .replace("%balance%", String.format("%.2f", account.getBalance()))
+                .replace("%balance%", String.format(economy.getFormat(), account.getBalance()))
         )));
     }
 
@@ -120,7 +135,21 @@ public class BalanceCommand {
                 EconomiesForge.getInstance().getConfig().getEconomies().values()) {
             s = s.replace(
                     "%player_balance_" + value.getEconomy().getId() + "%",
-                    String.format("%.2f", attribute.getAccount(value.getEconomy()).getBalance())
+                    String.format(value.getEconomyFormat(), attribute.getAccount(value.getEconomy()).getBalance())
+            );
+        }
+
+        return s;
+    }
+
+    private String handleAllPlaceholders(String name, OfflinePlayerData attribute, String s) {
+        s = s.replace("%player%", name);
+
+        for (EconomiesConfig.ConfigEconomy value :
+                EconomiesForge.getInstance().getConfig().getEconomies().values()) {
+            s = s.replace(
+                    "%player_balance_" + value.getEconomy().getId() + "%",
+                    String.format(value.getEconomyFormat(), attribute.getBalance(value.getEconomy()).getBalance())
             );
         }
 
