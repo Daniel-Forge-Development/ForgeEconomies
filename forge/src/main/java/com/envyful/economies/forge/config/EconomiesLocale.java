@@ -39,7 +39,7 @@ public class EconomiesLocale extends AbstractYamlConfig {
 
     private List<String> allBalanceFormat = Lists.newArrayList(
             "&8&m-------- &e%player%'s balance &8&m--------",
-            "&eCoins: %player_balance_coins%",
+            "&eDollar: %player_balance_one%",
             "&8&m--------------------"
     );
 
