@@ -3,6 +3,7 @@ package com.envyful.economies.forge.impl;
 import com.envyful.api.forge.player.ForgeEnvyPlayer;
 import com.envyful.economies.api.Bank;
 import com.envyful.economies.api.Economy;
+import com.envyful.economies.api.platform.PlatformController;
 import com.envyful.economies.forge.EconomiesForge;
 
 import java.util.UUID;
@@ -45,7 +46,11 @@ public class ForgeBank implements Bank {
             return;
         }
 
-        EconomiesForge.getInstance().getPlatformController().sendEconomyEvent(player, this.economy, oldBalance, this.balance, this.balance);
+        PlatformController platformController = EconomiesForge.getInstance().getPlatformController();
+
+        if (platformController != null) {
+            platformController.sendEconomyEvent(player, this.economy, oldBalance, this.balance, this.balance);
+        }
     }
 
     @Override
@@ -59,7 +64,11 @@ public class ForgeBank implements Bank {
             return;
         }
 
-        EconomiesForge.getInstance().getPlatformController().sendEconomyEvent(player, this.economy, oldBalance, this.balance, value);
+        PlatformController platformController = EconomiesForge.getInstance().getPlatformController();
+
+        if (platformController != null) {
+            platformController.sendEconomyEvent(player, this.economy, oldBalance, this.balance, value);
+        }
     }
 
     @Override
@@ -73,7 +82,11 @@ public class ForgeBank implements Bank {
             return;
         }
 
-        EconomiesForge.getInstance().getPlatformController().sendEconomyEvent(player, this.economy, oldBalance, this.balance, -value);
+        PlatformController platformController = EconomiesForge.getInstance().getPlatformController();
+
+        if (platformController != null) {
+            platformController.sendEconomyEvent(player, this.economy, oldBalance, this.balance, -value);
+        }
     }
 
     @Override
