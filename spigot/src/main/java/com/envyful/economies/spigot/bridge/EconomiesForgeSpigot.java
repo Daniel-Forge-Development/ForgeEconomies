@@ -20,8 +20,7 @@ public class EconomiesForgeSpigot extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        getServer().getScheduler().runTaskLater(this, () -> {
-            for (EconomiesConfig.ConfigEconomy value :
+        for (EconomiesConfig.ConfigEconomy value :
                     EconomiesForge.getInstance().getConfig().getEconomies().values()) {
                 if (value.getEconomy().isDefault()) {
                     getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class,
@@ -30,7 +29,6 @@ public class EconomiesForgeSpigot extends JavaPlugin {
                     );
                 }
             }
-        }, 1L);
     }
 
     public static class ForgeEconomy extends AbstractEconomy {
