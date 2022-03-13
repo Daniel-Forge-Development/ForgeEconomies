@@ -1,0 +1,12 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="MIT"
+issueTrackerURL="https://github.com/EnvyWare"
+
+[[mods]]
+modId="economies"
+version="1.7.2"
+displayName="Forge Economies"
+displayURL="https://github.com/EnvyWare"
+credits="Pixelmon Development Team for all their hard work over the years."
+authors="https://github.com/EnvyWare"
