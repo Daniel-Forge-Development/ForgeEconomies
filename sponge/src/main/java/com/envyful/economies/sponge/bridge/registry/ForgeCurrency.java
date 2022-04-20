@@ -45,7 +45,7 @@ public class ForgeCurrency implements Currency {
 
     @Override
     public boolean isDefault() {
-        return false;
+        return this.economy.isDefault();
     }
 
     @Override
