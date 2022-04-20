@@ -25,7 +25,10 @@ import net.minecraft.util.text.TextComponentString;
 
 @Command(
         value = "take",
-        description = "§7/eco take <player> <economy> <amount>"
+        description = "§7/eco take <player> <economy> <amount>",
+        aliases = {
+                "remove"
+        }
 )
 @Permissible("economies.command.eco.take")
 @Child
