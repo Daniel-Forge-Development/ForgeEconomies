@@ -11,6 +11,7 @@ import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.forge.command.completion.number.IntCompletionData;
 import com.envyful.api.forge.command.completion.number.IntegerTabCompleter;
 import com.envyful.api.forge.command.completion.player.PlayerTabCompleter;
+import com.envyful.api.forge.player.ForgeEnvyPlayer;
 import com.envyful.api.forge.player.util.UtilPlayer;
 import com.envyful.api.player.EnvyPlayer;
 import com.envyful.economies.api.Bank;
@@ -41,6 +42,35 @@ public class GiveCommand {
                           @Completable(PlayerTabCompleter.class) @Argument String target,
                           @Completable(EconomyTabCompleter.class) @Argument(defaultValue = "default") Economy economy,
                           @Completable(IntegerTabCompleter.class) @IntCompletionData(min = 1, max = 20) @Argument double value) {
+        if (target.equalsIgnoreCase("@a")) {
+            for (ForgeEnvyPlayer onlinePlayer : EconomiesForge.getInstance().getPlayerManager().getOnlinePlayers()) {
+                EconomiesAttribute attribute = onlinePlayer.getAttribute(EconomiesForge.class);
+
+                if (attribute == null) {
+                    continue;
+                }
+
+                Bank account = attribute.getAccount(economy);
+
+                if (account == null) {
+                    return;
+                }
+
+                account.deposit(value);
+
+                onlinePlayer.message(UtilChatColour.translateColourCodes('&', EconomiesForge.getInstance()
+                        .getLocale().getGivenMoney().replace("%value%",
+                                (economy.isPrefix() ? economy.getEconomyIdentifier() : "") +
+                                        String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), value)
+                                        + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))
+                        .replace("%sender%", UtilPlayer.getName(sender))
+                        .replace("%player%", onlinePlayer.getName())));
+            }
+
+            sender.sendMessage(new StringTextComponent(UtilChatColour.translateColourCodes('&', "&a&l(!) &aAdded $" + String.format(economy.getFormat(), value) + " to all online players!")), Util.DUMMY_UUID);
+            return;
+        }
+
         EnvyPlayer<ServerPlayerEntity> targetPlayer = EconomiesForge.getInstance().getPlayerManager().getOnlinePlayerCaseInsensitive(target);
 
         if (value <= 0) {
