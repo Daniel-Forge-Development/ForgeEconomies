@@ -42,8 +42,8 @@ dependencies {
 
     shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
 
-    shadow group: 'com.github.Daniel-Forge-Development.API', name: 'commons', version: '1.7.7'
-    shadow group: 'com.github.Daniel-Forge-Development.API', name: 'forge16', version: '1.7.7'
+    shadow group: 'com.github.EnvyWare.API', name: 'commons', version: '2.2.8'
+    shadow group: 'com.github.EnvyWare.API', name: 'forge16', version: '2.2.8'
 
     shadow project(':api')
 }

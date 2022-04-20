@@ -20,10 +20,10 @@ import com.envyful.economies.forge.impl.EconomyTabCompleter;
 import com.envyful.economies.forge.player.EconomiesAttribute;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
@@ -119,13 +119,13 @@ public class EconomiesForge {
     }
 
     @SubscribeEvent
-    public void onServerStart(FMLServerStartedEvent event) {
+    public void onServerStart(RegisterCommandsEvent event) {
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
 
-        this.commandFactory.registerCommand(server, new EconomiesCommand());
-        this.commandFactory.registerCommand(server, new PayCommand());
-        this.commandFactory.registerCommand(server, new BalanceCommand());
-        this.commandFactory.registerCommand(server, new BaltopCommand());
+        this.commandFactory.registerCommand(event.getDispatcher(), new EconomiesCommand());
+        this.commandFactory.registerCommand(event.getDispatcher(), new PayCommand());
+        this.commandFactory.registerCommand(event.getDispatcher(), new BalanceCommand());
+        this.commandFactory.registerCommand(event.getDispatcher(), new BaltopCommand());
     }
 
     @SubscribeEvent

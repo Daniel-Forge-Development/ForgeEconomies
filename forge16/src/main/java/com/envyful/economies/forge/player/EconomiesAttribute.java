@@ -16,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.UUID;
 
 public class EconomiesAttribute extends AbstractForgeAttribute<EconomiesForge> {
 
@@ -23,6 +24,10 @@ public class EconomiesAttribute extends AbstractForgeAttribute<EconomiesForge> {
 
     public EconomiesAttribute(EconomiesForge manager, EnvyPlayer<?> parent) {
         super(manager, (ForgeEnvyPlayer) parent);
+    }
+
+    public EconomiesAttribute(UUID uuid) {
+        super(uuid);
     }
 
     public Bank getAccount(Economy economy) {
