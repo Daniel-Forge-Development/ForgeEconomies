@@ -31,7 +31,7 @@ public class EconomiesForgeSponge {
             "ecotop"
     };
 
-    protected static final String VERSION = "1.7.5";
+    protected static final String VERSION = "1.7.6";
 
     @Inject private Game game;
 

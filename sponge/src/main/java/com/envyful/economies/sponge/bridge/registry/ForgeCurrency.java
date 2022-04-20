@@ -5,6 +5,7 @@ import org.spongepowered.api.service.economy.Currency;
 import org.spongepowered.api.text.Text;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class ForgeCurrency implements Currency {
 
@@ -35,7 +36,11 @@ public class ForgeCurrency implements Currency {
 
     @Override
     public Text format(BigDecimal amount, int numFractionDigits) {
-        return Text.of(String.format(this.economy.getFormat(), amount));
+        Text label = getPluralDisplayName();
+        if (amount.equals(BigDecimal.ONE)) {
+            label = getDisplayName();
+        }
+        return Text.of(String.format(economy.getFormat(), amount.setScale(numFractionDigits, RoundingMode.HALF_UP)) + " ", label);
     }
 
     @Override
