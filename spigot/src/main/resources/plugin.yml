@@ -1,5 +1,5 @@
 name: ForgeEconomiesSpigotBridge
-version: 1.7.5
+version: 1.7.6
 author: Envyful
 main: com.envyful.economies.spigot.bridge.EconomiesForgeSpigot
 depend: [Vault]
