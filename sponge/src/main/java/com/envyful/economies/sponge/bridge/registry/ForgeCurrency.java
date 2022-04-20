@@ -35,7 +35,7 @@ public class ForgeCurrency implements Currency {
 
     @Override
     public Text format(BigDecimal amount, int numFractionDigits) {
-        return null;
+        return Text.of(String.format(this.economy.getFormat(), amount));
     }
 
     @Override
