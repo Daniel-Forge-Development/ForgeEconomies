@@ -10,6 +10,7 @@ import com.google.common.collect.Maps;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @ConfigPath("config/EconomiesForge/config.yml")
 @ConfigSerializable
@@ -22,7 +23,7 @@ public class EconomiesConfig extends AbstractYamlConfig {
 
     private Map<String, ConfigEconomy> economies = Maps.newHashMap(ImmutableMap.of(
             "one", new ConfigEconomy("one", "dollar", "dollars", "$",
-                    true, true, 250.0, 1.0, "%.2f")
+                    true, true, 250.0, 1.0, "%.2f", 120)
     ));
 
     public EconomiesConfig() {
@@ -53,11 +54,12 @@ public class EconomiesConfig extends AbstractYamlConfig {
         private double defaultValue;
         private double minimumPayAmount;
         private String economyFormat = "%.2f";
+        private long cacheDurationSeconds = 120;
 
         private transient Economy economy = null;
 
         public ConfigEconomy(String id, String displayName, String displayNamePlural, String identifier, boolean prefix,
-                             boolean isDefault, double defaultValue, double minimumPayAmount, String economyFormat) {
+                             boolean isDefault, double defaultValue, double minimumPayAmount, String economyFormat, long cacheDurationSeconds) {
             this.id = id;
             this.displayName = displayName;
             this.displayNamePlural = displayNamePlural;
@@ -67,6 +69,7 @@ public class EconomiesConfig extends AbstractYamlConfig {
             this.defaultValue = defaultValue;
             this.minimumPayAmount = minimumPayAmount;
             this.economyFormat = economyFormat;
+            this.cacheDurationSeconds = cacheDurationSeconds;
         }
 
         public ConfigEconomy() {
@@ -76,7 +79,7 @@ public class EconomiesConfig extends AbstractYamlConfig {
             if (this.economy == null) {
                 this.economy = new ForgeEconomy(this.id, this.displayName, this.displayNamePlural, this.identifier,
                                                 this.prefix, this.isDefault, this.defaultValue, minimumPayAmount,
-                                                this.economyFormat
+                                                this.economyFormat, TimeUnit.SECONDS.toMillis(this.cacheDurationSeconds)
                 );
             }
 
