@@ -6,8 +6,6 @@ import com.envyful.api.database.leaderboard.SQLLeaderboard;
 import com.envyful.economies.api.Economy;
 import com.envyful.economies.forge.EconomiesForge;
 
-import java.util.concurrent.TimeUnit;
-
 public class ForgeEconomy implements Economy {
 
     private final String id;
@@ -19,11 +17,12 @@ public class ForgeEconomy implements Economy {
     private final double defaultValue;
     private final double minimumPayAmount;
     private final String economyFormat;
+    private final long cacheDuration;
 
     private SQLLeaderboard leaderboard;
 
     public ForgeEconomy(String id, String displayname, String displaynamePlural, String identifier, boolean prefix, boolean isDefault, double defaultValue,
-                        double minimumPayAmount, String economyFormat) {
+                        double minimumPayAmount, String economyFormat, long cacheDuration) {
         this.id = id;
         this.displayname = displayname;
         this.displaynamePlural = displaynamePlural;
@@ -33,6 +32,7 @@ public class ForgeEconomy implements Economy {
         this.defaultValue = defaultValue;
         this.minimumPayAmount = minimumPayAmount;
         this.economyFormat = economyFormat;
+        this.cacheDuration = cacheDuration;
 
         if (EconomiesForge.getInstance().getDatabase() == null) {
             UtilConcurrency.runLater(this::initLeaderboard, 40L);
@@ -45,11 +45,11 @@ public class ForgeEconomy implements Economy {
         this.leaderboard = SQLLeaderboard.builder()
                 .order(Order.DESCENDING)
                 .pageSize(10)
-                .cacheDuration(TimeUnit.MINUTES.toMillis(30))
+                .cacheDuration(this.cacheDuration)
                 .formatter((resultSet, pos) -> EconomiesForge.getInstance().getLocale().getBaltopFormat()
                         .replace("%pos%", (pos + 1) + "")
                         .replace("%name%", resultSet.getString("name"))
-                        .replace("%balance%", String.format("%.2f", (float) resultSet.getLong("balance")))
+                        .replace("%balance%", String.format(this.economyFormat, (float) resultSet.getLong("balance")))
                 )
                 .table("forge_economies_banks")
                 .column("balance")
