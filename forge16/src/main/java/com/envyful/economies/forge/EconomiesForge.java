@@ -37,7 +37,7 @@ import java.sql.SQLException;
 @Mod.EventBusSubscriber
 public class EconomiesForge {
 
-    protected static final String VERSION = "1.7.8";
+    protected static final String VERSION = "1.7.9";
 
     private static EconomiesForge instance;
 
