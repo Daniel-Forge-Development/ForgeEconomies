@@ -46,8 +46,8 @@ dependencies {
 
     compileOnly group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
 
-    compileOnly group: 'com.github.EnvyWare.API', name: 'commons', version: '2.3.0'
-    compileOnly group: 'com.github.EnvyWare.API', name: 'forge', version: '2.3.0'
+    compileOnly group: 'com.github.EnvyWare.API', name: 'commons', version: '2.4.3'
+    compileOnly group: 'com.github.EnvyWare.API', name: 'forge', version: '2.4.3'
 }
 
 shadowJar {
