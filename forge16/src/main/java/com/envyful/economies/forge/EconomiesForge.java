@@ -76,27 +76,7 @@ public class EconomiesForge {
 
     @SubscribeEvent
     public void onInit(FMLServerStartingEvent event) {
-        this.playerManager.registerAttribute(this, EconomiesAttribute.class);
 
-        this.commandFactory.registerInjector(Economy.class, (sender, args) -> {
-            if (args[0].equalsIgnoreCase("default")) {
-                for (EconomiesConfig.ConfigEconomy value : this.getConfig().getEconomies().values()) {
-                    if (value.getEconomy().isDefault()) {
-                        return value.getEconomy();
-                    }
-                }
-            }
-
-            Economy economyFromConfig = this.getEconomyFromConfig(args[0]);
-
-            if (economyFromConfig == null) {
-                return null;
-            }
-
-            return economyFromConfig;
-        });
-
-        this.commandFactory.registerCompleter(new EconomyTabCompleter());
     }
 
     private Economy getEconomyFromConfig(String name) {
@@ -121,6 +101,28 @@ public class EconomiesForge {
     @SubscribeEvent
     public void onServerStart(RegisterCommandsEvent event) {
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+
+        this.playerManager.registerAttribute(this, EconomiesAttribute.class);
+
+        this.commandFactory.registerInjector(Economy.class, (sender, args) -> {
+            if (args[0].equalsIgnoreCase("default")) {
+                for (EconomiesConfig.ConfigEconomy value : this.getConfig().getEconomies().values()) {
+                    if (value.getEconomy().isDefault()) {
+                        return value.getEconomy();
+                    }
+                }
+            }
+
+            Economy economyFromConfig = this.getEconomyFromConfig(args[0]);
+
+            if (economyFromConfig == null) {
+                return null;
+            }
+
+            return economyFromConfig;
+        });
+
+        this.commandFactory.registerCompleter(new EconomyTabCompleter());
 
         this.commandFactory.registerCommand(event.getDispatcher(), new EconomiesCommand());
         this.commandFactory.registerCommand(event.getDispatcher(), new PayCommand());
