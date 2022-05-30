@@ -37,10 +37,14 @@ dependencies {
 
     shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
 
-    shadow group: 'com.github.EnvyWare.API', name: 'commons', version: '2.4.5'
-    shadow group: 'com.github.EnvyWare.API', name: 'forge16', version: '2.4.5'
+    shadow(group: 'com.github.EnvyWare.API', name: 'commons', version: '2.4.6')  {
+        transitive = false
+    }
+    shadow(group: 'com.github.EnvyWare.API', name: 'forge16', version: '2.4.6') {
+        transitive = false
+    }
 
-    shadow project(':api')
+    implementation project(':api')
 }
 
 shadowJar {
@@ -56,8 +60,9 @@ shadowJar {
     relocate('com.envyful.api', 'com.envyful.economies.forge.shade.envy.api')
     relocate('org.bstats', 'com.envyful.economies.forge.shade.bstats')
 
-
     exclude "**/module-info.class"
+    exclude "**/overview.html"
+    exclude "**/overviewj.html"
 }
 
 reobf {

@@ -10,7 +10,7 @@ repositories {
 dependencies {
 //    shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
 
-    compileOnly group: 'com.github.EnvyWare.API', name: 'commons', version: '2.4.3'
+    implementation group: 'com.github.EnvyWare.API', name: 'commons', version: '2.4.3'
 }
 
 shadowJar {

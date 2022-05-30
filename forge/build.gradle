@@ -42,14 +42,18 @@ dependencies {
 
     shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
 
-    shadow group: 'com.github.EnvyWare.API', name: 'commons', version: '2.4.3'
-    shadow group: 'com.github.EnvyWare.API', name: 'forge', version: '2.4.3'
+    shadow(group: 'com.github.EnvyWare.API', name: 'commons', version: '2.4.6')  {
+        transitive = false
+    }
+    shadow(group: 'com.github.EnvyWare.API', name: 'forge', version: '2.4.6') {
+        transitive = false
+    }
 
     shadow project(':api')
 }
 
 shadowJar {
-    configurations = [project.configurations.shadow]
+    configurations = []
     archiveName = rootProject.name + '-Forge.jar'
 
     relocate('org.spongepowered.configurate', 'com.envyful.economies.forge.shade.configurate')
