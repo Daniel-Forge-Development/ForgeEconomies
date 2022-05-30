@@ -31,10 +31,6 @@ repositories {
     }
 
     maven { url 'https://jitpack.io' }
-
-    flatDir {
-        dirs '../../Libraries/'
-    }
 }
 
 dependencies {
@@ -53,7 +49,7 @@ dependencies {
 }
 
 shadowJar {
-    configurations = []
+    configurations = [project.configurations.shadow]
     archiveName = rootProject.name + '-Forge.jar'
 
     relocate('org.spongepowered.configurate', 'com.envyful.economies.forge.shade.configurate')
