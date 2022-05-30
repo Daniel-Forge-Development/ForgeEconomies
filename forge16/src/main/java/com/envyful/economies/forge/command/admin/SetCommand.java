@@ -45,7 +45,7 @@ public class SetCommand {
             sender.sendMessage(new StringTextComponent(UtilChatColour.translateColourCodes(
                     '&',
                     EconomiesForge.getInstance().getLocale().getCannotSetLessThanZero()
-            )), Util.DUMMY_UUID);
+            )), Util.NIL_UUID);
             return;
         }
 
@@ -56,7 +56,7 @@ public class SetCommand {
                 sender.sendMessage(new StringTextComponent(UtilChatColour.translateColourCodes(
                         '&',
                         EconomiesForge.getInstance().getLocale().getPlayerNotFound()
-                )), Util.DUMMY_UUID);
+                )), Util.NIL_UUID);
                 return;
             }
 
@@ -70,7 +70,7 @@ public class SetCommand {
                             .replace("%value%",
                                      String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), value))
                             .replace("%sender%", UtilPlayer.getName(sender))
-            )), Util.DUMMY_UUID);
+            )), Util.NIL_UUID);
 
             return;
         }
@@ -95,6 +95,6 @@ public class SetCommand {
                         .replace("%value%",
                                  String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), value))
                         .replace("%sender%", UtilPlayer.getName(sender)))
-        ), Util.DUMMY_UUID);
+        ), Util.NIL_UUID);
     }
 }

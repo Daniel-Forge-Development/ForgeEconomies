@@ -67,7 +67,7 @@ public class GiveCommand {
                         .replace("%player%", onlinePlayer.getName())));
             }
 
-            sender.sendMessage(new StringTextComponent(UtilChatColour.translateColourCodes('&', "&a&l(!) &aAdded $" + String.format(economy.getFormat(), value) + " to all online players!")), Util.DUMMY_UUID);
+            sender.sendMessage(new StringTextComponent(UtilChatColour.translateColourCodes('&', "&a&l(!) &aAdded $" + String.format(economy.getFormat(), value) + " to all online players!")), Util.NIL_UUID);
             return;
         }
 
@@ -77,7 +77,7 @@ public class GiveCommand {
             sender.sendMessage(new StringTextComponent(UtilChatColour.translateColourCodes(
                     '&',
                     EconomiesForge.getInstance().getLocale().getCannotGiveLessThanZero()
-            )), Util.DUMMY_UUID);
+            )), Util.NIL_UUID);
             return;
         }
 
@@ -88,7 +88,7 @@ public class GiveCommand {
                 sender.sendMessage(new StringTextComponent(UtilChatColour.translateColourCodes(
                         '&',
                         EconomiesForge.getInstance().getLocale().getPlayerNotFound()
-                )), Util.DUMMY_UUID);
+                )), Util.NIL_UUID);
                 return;
             }
 
@@ -104,7 +104,7 @@ public class GiveCommand {
                                     String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), value)
                                     + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))
                             .replace("%sender%", UtilPlayer.getName(sender))
-            )), Util.DUMMY_UUID);
+            )), Util.NIL_UUID);
 
             return;
         }
@@ -138,6 +138,6 @@ public class GiveCommand {
                                 String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), value)
                                 + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))
                         .replace("%sender%", UtilPlayer.getName(sender))
-        )), Util.DUMMY_UUID);
+        )), Util.NIL_UUID);
     }
 }

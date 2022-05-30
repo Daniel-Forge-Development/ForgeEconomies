@@ -73,7 +73,7 @@ public class BalanceCommand {
                 player.sendMessage(new StringTextComponent(UtilChatColour.translateColourCodes(
                         '&',
                         EconomiesForge.getInstance().getLocale().getPlayerNotFound()
-                )), Util.DUMMY_UUID);
+                )), Util.NIL_UUID);
                 return;
             }
 
@@ -86,7 +86,7 @@ public class BalanceCommand {
                                     playerByName,
                                     s
                             )
-                    )), Util.DUMMY_UUID);
+                    )), Util.NIL_UUID);
                 }
 
                 return;
@@ -98,7 +98,7 @@ public class BalanceCommand {
                     EconomiesForge.getInstance().getLocale().getTargetBalance()
                             .replace("%target%", args[0])
                             .replace("%balance%", String.format(economy.getFormat(), account.getBalance()))
-            )), Util.DUMMY_UUID);
+            )), Util.NIL_UUID);
             return;
         }
 
@@ -108,13 +108,13 @@ public class BalanceCommand {
             player.sendMessage(new StringTextComponent(UtilChatColour.translateColourCodes(
                     '&',
                     EconomiesForge.getInstance().getLocale().getPlayerNotOnline()
-            )), Util.DUMMY_UUID);
+            )), Util.NIL_UUID);
             return;
         }
 
         if (EconomiesForge.getInstance().getConfig().isBalanceShowsAll()) {
             for (String s : EconomiesForge.getInstance().getLocale().getAllBalanceFormat()) {
-                player.sendMessage(new StringTextComponent(UtilChatColour.translateColourCodes('&', this.handleAllPlaceholders(args[0], targetAttribute, s))), Util.DUMMY_UUID);
+                player.sendMessage(new StringTextComponent(UtilChatColour.translateColourCodes('&', this.handleAllPlaceholders(args[0], targetAttribute, s))), Util.NIL_UUID);
             }
 
             return;
@@ -126,7 +126,7 @@ public class BalanceCommand {
                 EconomiesForge.getInstance().getLocale().getTargetBalance()
                 .replace("%target%", target.getName())
                 .replace("%balance%", String.format(economy.getFormat(), account.getBalance()))
-        )), Util.DUMMY_UUID);
+        )), Util.NIL_UUID);
     }
 
     private String handleAllPlaceholders(String name, EconomiesAttribute attribute, String s) {

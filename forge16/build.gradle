@@ -1,9 +1,8 @@
 buildscript {
     repositories {
-        jcenter()
         maven {
             name = 'forge'
-            url = 'https://files.minecraftforge.net/maven'
+            url = 'https://maven.minecraftforge.net'
         }
         maven {
             url = 'https://plugins.gradle.org/m2/'
@@ -19,7 +18,7 @@ forgeVersion = '1.16.5'
 apply plugin: 'net.minecraftforge.gradle'
 
 minecraft {
-    mappings channel: 'snapshot', version: '20210309-1.16.5'
+    mappings channel: 'official', version: '1.16.5'
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
@@ -31,10 +30,6 @@ repositories {
     }
 
     maven { url 'https://jitpack.io' }
-
-    flatDir {
-        dirs '../../Libraries/'
-    }
 }
 
 dependencies {
@@ -42,8 +37,8 @@ dependencies {
 
     shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
 
-    shadow group: 'com.github.EnvyWare.API', name: 'commons', version: '2.4.3'
-    shadow group: 'com.github.EnvyWare.API', name: 'forge16', version: '2.4.3'
+    shadow group: 'com.github.EnvyWare.API', name: 'commons', version: '2.4.5'
+    shadow group: 'com.github.EnvyWare.API', name: 'forge16', version: '2.4.5'
 
     shadow project(':api')
 }

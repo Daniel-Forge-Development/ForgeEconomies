@@ -44,7 +44,7 @@ public class TakeCommand {
             sender.sendMessage(new StringTextComponent(UtilChatColour.translateColourCodes(
                     '&',
                     EconomiesForge.getInstance().getLocale().getCannotTakeLessThanZero()
-            )), Util.DUMMY_UUID);
+            )), Util.NIL_UUID);
             return;
         }
 
@@ -55,7 +55,7 @@ public class TakeCommand {
                 sender.sendMessage(new StringTextComponent(UtilChatColour.translateColourCodes(
                         '&',
                         EconomiesForge.getInstance().getLocale().getPlayerNotFound()
-                )), Util.DUMMY_UUID);
+                )), Util.NIL_UUID);
                 return;
             }
 
@@ -65,7 +65,7 @@ public class TakeCommand {
                 sender.sendMessage(new StringTextComponent(UtilChatColour.translateColourCodes(
                         '&',
                         EconomiesForge.getInstance().getLocale().getAdminInsufficientFunds()
-                )), Util.DUMMY_UUID);
+                )), Util.NIL_UUID);
                 return;
             }
 
@@ -78,7 +78,7 @@ public class TakeCommand {
                                     String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), value)
                                     + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))
                             .replace("%sender%", UtilPlayer.getName(sender))
-            )), Util.DUMMY_UUID);
+            )), Util.NIL_UUID);
             return;
         }
 
@@ -98,7 +98,7 @@ public class TakeCommand {
             sender.sendMessage(new StringTextComponent(UtilChatColour.translateColourCodes(
                     '&',
                     EconomiesForge.getInstance().getLocale().getAdminInsufficientFunds()
-            )), Util.DUMMY_UUID);
+            )), Util.NIL_UUID);
             return;
         }
 
@@ -123,6 +123,6 @@ public class TakeCommand {
                                 String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), value)
                                 + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))
                         .replace("%sender%", UtilPlayer.getName(sender))
-        )), Util.DUMMY_UUID);
+        )), Util.NIL_UUID);
     }
 }

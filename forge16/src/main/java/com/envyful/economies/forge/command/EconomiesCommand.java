@@ -25,6 +25,6 @@ public class EconomiesCommand {
 
     @CommandProcessor
     public void onCommand(@Sender ICommandSource sender, String[] args) {
-        sender.sendMessage(new StringTextComponent("/eco [reload|give|take|set|reset]"), Util.DUMMY_UUID);
+        sender.sendMessage(new StringTextComponent("/eco [reload|give|take|set|reset]"), Util.NIL_UUID);
     }
 }

@@ -26,6 +26,6 @@ public class ReloadCommand {
         sender.sendMessage(new StringTextComponent(UtilChatColour.translateColourCodes(
                 '&',
                 EconomiesForge.getInstance().getLocale().getAdminReload()
-        )), Util.DUMMY_UUID);
+        )), Util.NIL_UUID);
     }
 }

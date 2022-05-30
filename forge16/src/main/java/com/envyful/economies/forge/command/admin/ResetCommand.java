@@ -44,7 +44,7 @@ public class ResetCommand {
                 sender.sendMessage(new StringTextComponent(UtilChatColour.translateColourCodes(
                         '&',
                         EconomiesForge.getInstance().getLocale().getPlayerNotFound()
-                )), Util.DUMMY_UUID);
+                )), Util.NIL_UUID);
                 return;
             }
 
@@ -59,7 +59,7 @@ public class ResetCommand {
                             .replace("%value%", (economy.isPrefix() ? economy.getEconomyIdentifier() : "") +
                                     String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), economy.getDefaultValue())
                                     + (!economy.isPrefix() ? economy.getEconomyIdentifier() : ""))
-            )), Util.DUMMY_UUID);
+            )), Util.NIL_UUID);
 
             return;
         }
@@ -83,6 +83,6 @@ public class ResetCommand {
                         .replace("%player%", targetPlayer.getName())
                         .replace("%value%", (economy.isPrefix() ? economy.getEconomyIdentifier() : "") +
                                          String.format(EconomiesForge.getInstance().getLocale().getBalanceFormat(), economy.getDefaultValue())
-                                + (!economy.isPrefix() ? economy.getEconomyIdentifier() : "")))), Util.DUMMY_UUID);
+                                + (!economy.isPrefix() ? economy.getEconomyIdentifier() : "")))), Util.NIL_UUID);
     }
 }

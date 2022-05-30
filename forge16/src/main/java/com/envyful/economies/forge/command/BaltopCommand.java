@@ -28,12 +28,12 @@ public class BaltopCommand {
                           @Argument(defaultValue = "1") int page) {
         if (page <= 0) {
             player.sendMessage(new StringTextComponent(UtilChatColour.translateColourCodes('&',
-                    EconomiesForge.getInstance().getLocale().getPageMustBeGreaterThanZero())), Util.DUMMY_UUID);
+                    EconomiesForge.getInstance().getLocale().getPageMustBeGreaterThanZero())), Util.NIL_UUID);
             return;
         }
 
         for (String s : economy.getLeaderboard().getPage(page - 1)) {
-            player.sendMessage(new StringTextComponent(UtilChatColour.translateColourCodes('&', s)), Util.DUMMY_UUID);
+            player.sendMessage(new StringTextComponent(UtilChatColour.translateColourCodes('&', s)), Util.NIL_UUID);
         }
     }
 }

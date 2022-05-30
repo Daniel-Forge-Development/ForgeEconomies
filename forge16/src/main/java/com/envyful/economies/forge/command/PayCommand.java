@@ -74,7 +74,7 @@ public class PayCommand {
                 player.sendMessage(new StringTextComponent(UtilChatColour.translateColourCodes(
                         '&',
                         EconomiesForge.getInstance().getLocale().getPlayerNotFound()
-                )), Util.DUMMY_UUID);
+                )), Util.NIL_UUID);
                 return;
             }
 
@@ -93,9 +93,9 @@ public class PayCommand {
             return;
         }
 
-        if (Objects.equals(player.getUniqueID(), targetPlayer.getUuid())) {
+        if (Objects.equals(player.getUUID(), targetPlayer.getUuid())) {
             player.sendMessage(new StringTextComponent(UtilChatColour.translateColourCodes('&',
-                    EconomiesForge.getInstance().getLocale().getCannotPayYourself())), Util.DUMMY_UUID);
+                    EconomiesForge.getInstance().getLocale().getCannotPayYourself())), Util.NIL_UUID);
             return;
         }
 
